@@ -24,7 +24,7 @@ def render(jobs: list[Job], dashboard_url: str = "") -> tuple[str, str]:
         where = " · ".join(j.locations[:2]) or "Remote"
         elig = ELIGIBILITY_LABEL.get(j.eligibility, j.eligibility)
         stip = format_stipend(j)
-        rows_txt.append(f"- {j.company} — {j.title}\n  {where} | {elig} | {stip}\n  {j.url}")
+        rows_txt.append(f"- {j.company}: {j.title}\n  {where} | {elig} | {stip}\n  {j.url}")
         rows_html.append(
             '<tr><td style="padding:16px 0;border-bottom:1px solid #e5e7eb">'
             f'<div style="font-size:12px;letter-spacing:.3px;text-transform:uppercase;color:#4a5565">'
@@ -36,7 +36,7 @@ def render(jobs: list[Job], dashboard_url: str = "") -> tuple[str, str]:
         )
     link = f'<p><a href="{html.escape(dashboard_url)}" style="display:inline-block;background:#e42b0c;color:#fff;' \
            f'padding:12px 24px;border-radius:8px;text-decoration:none;font-size:14px;letter-spacing:.3px;' \
-           f'text-transform:uppercase">Open tracker →</a></p>' if dashboard_url else ""
+           f'text-transform:uppercase">Open the tracker</a></p>' if dashboard_url else ""
     body_html = (
         '<div style="font-family:Inter,Helvetica,Arial,sans-serif;background:#f5f5f5;padding:24px">'
         '<div style="max-width:640px;margin:auto;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:32px">'

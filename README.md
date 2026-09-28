@@ -1,12 +1,11 @@
 # Internship Tracker*
 
-A free, self-updating tracker for software, CS and AI internships in **Pune, Mumbai and remote**.
-Every two hours a GitHub Action checks a watchlist of companies' own hiring systems and a few trusted
-remote feeds. It keeps only internships and works out who can actually apply to each one. When a new
-role matches your filters, it sends an alert by **email** and **Discord**.
-The dashboard is a static page on GitHub Pages.
+A free tracker for software, CS and AI internships in Pune, Mumbai and remote. Every two hours a
+GitHub Action checks a watchlist of companies' own hiring systems and a few trusted remote job feeds.
+It keeps the internships, works out who can apply to each one, and sends an email and a Discord
+message when a new role matches your filters. The dashboard is a static page on GitHub Pages.
 
-No servers, no database, no paid APIs. Git is the database.
+There are no servers, no database and no paid APIs. The job data lives in the repo as JSON.
 
 ```
 GitHub Actions (cron, every 2h)
@@ -19,45 +18,52 @@ GitHub Actions (cron, every 2h)
 GitHub Pages  ← web/ + data/*.json   (client-side filtering, no build step)
 ```
 
-## What each role gets tagged with
+## How roles are tagged
 
-| | |
+| Tag | Values |
 |---|---|
-| **Location** | `pune`, `mumbai`, `india`, `remote`, `other` (Pune includes Hinjewadi, Kharadi, Baner…; Mumbai includes Navi Mumbai, Thane, Powai…) |
-| **Field** | `software`, `ai-ml`, `data`, `other` from the title, falling back to the description |
-| **Eligibility** | `india-ok`, `open-worldwide`, `unknown`, `timezone`, `needs-work-auth`, `restricted`, `onsite-abroad` |
-| **Stipend** | Normalized to ₹/month from `₹25,000/month`, `6 LPA`, `$20/hr`, `€1,500 monthly`, or structured ATS pay fields. Otherwise *not disclosed* |
+| Location | `pune`, `mumbai`, `india`, `remote`, `other`. Pune includes Hinjewadi, Kharadi, Baner and nearby areas; Mumbai includes Navi Mumbai, Thane and Powai. |
+| Field | `software`, `ai-ml`, `data`, `other`, read from the title, or from the description if the title is vague. |
+| Eligibility | `india-ok`, `open-worldwide`, `unknown`, `timezone`, `needs-work-auth`, `restricted`, `onsite-abroad` |
+| Stipend | Converted to ₹ per month from text like `₹25,000/month`, `6 LPA`, `$20/hr` or `€1,500 monthly`, or from the ATS's own pay field. Otherwise "not disclosed". |
 
-Eligibility is deliberately conservative. A remote role is marked open only when the posting says so.
-When it says nothing, the role is `unknown`, not "open". Each verdict stores the phrase it came from.
-Click a row on the dashboard to see that phrase, e.g. *"Candidates must be located in the United States"*.
+The eligibility check is conservative. A remote role counts as open only when the posting says so.
+If the posting doesn't mention location limits, the role is `unknown`. Each verdict keeps the phrase
+it was based on, and clicking a row on the dashboard shows it, for example "Candidates must be
+located in the United States".
 
-## Setup (≈10 minutes)
+## Setup
 
-1. **Merge to `main`.** Scheduled workflows only run from the default branch.
-2. **Make the repo public.** Free GitHub Pages needs it, and Actions minutes are unlimited on public repos.
-   The data is public job listings. Your secrets stay private either way.
-3. **Enable Pages:** Settings → Pages → Source: **GitHub Actions**.
-4. **Add alert secrets** (Settings → Secrets and variables → Actions). A channel with no secrets is skipped.
+This takes about ten minutes.
+
+1. Merge this branch into `main`. GitHub only runs scheduled workflows from the default branch.
+2. Make the repo public. Free GitHub Pages requires it, and public repos get unlimited Actions minutes.
+   The data is public job listings, and your secrets stay private.
+3. Turn on Pages: Settings → Pages → Source: GitHub Actions.
+4. Add the alert secrets under Settings → Secrets and variables → Actions. If a channel has no secrets, the tracker skips it.
+
    | Secret | Value |
    |---|---|
-   | `DISCORD_WEBHOOK_URL` | Discord: Server settings → Integrations → Webhooks → New webhook → Copy URL |
+   | `DISCORD_WEBHOOK_URL` | In Discord: Server settings → Integrations → Webhooks → New webhook → Copy URL |
    | `SMTP_USER` | Your Gmail address |
-   | `SMTP_APP_PASSWORD` | Google Account → Security → 2-Step Verification → App passwords (16 chars) |
-   | `ALERT_EMAIL_TO` | Where alerts go (can be the same address) |
-   Other SMTP providers: also set `SMTP_HOST` / `SMTP_PORT` (SSL) in the workflow env.
-5. **Run it once:** Actions → *Scrape* → Run workflow. The first run **seeds silently**: it records every
-   current role without alerting, so you don't get hundreds of messages. After that, only new roles alert.
-6. Open `https://<you>.github.io/InternshipTracker/`. Check the **Source health** panel at the bottom
-   for watchlist entries that fail (see caveat 1).
+   | `SMTP_APP_PASSWORD` | Google Account → Security → 2-Step Verification → App passwords (16 characters) |
+   | `ALERT_EMAIL_TO` | The address that receives alerts (can be the same one) |
 
-## Configure
+   For another mail provider, also set `SMTP_HOST` and `SMTP_PORT` (SSL) in the workflow env.
+5. Run it once from Actions → Scrape → Run workflow. The first run records every current role as
+   seen and sends nothing, so you don't get hundreds of alerts. After that, only new roles trigger alerts.
+6. Open `https://<you>.github.io/InternshipTracker/` and check the Source health panel at the bottom
+   for watchlist entries that fail (see the first caveat below).
 
-- `config/watchlist.yaml`: companies to watch. The file header explains how to find each ATS slug from a careers URL.
-- `config/filters.yaml`: which **new** roles trigger an alert (locations, fields, eligibility, minimum stipend,
-  whether undisclosed stipends count). The dashboard has its own filters, and they are kept in the URL, so you can bookmark a view.
+## Configuration
 
-## Run locally
+`config/watchlist.yaml` lists the companies to watch. Its header explains how to get each ATS slug from a careers page URL.
+
+`config/filters.yaml` decides which new roles send an alert: locations, fields, eligibility, minimum
+stipend, and whether roles with no stated stipend count. The dashboard has separate filters. It saves
+them in the URL, so you can bookmark a view.
+
+## Running locally
 
 ```bash
 pip install -r requirements-dev.txt
@@ -68,26 +74,28 @@ python -m tracker.run --test-alert                # send one sample alert (needs
 python -m http.server -d . 8000                   # then open http://localhost:8000/web/
 ```
 
-## Caveats (read these)
+## Caveats
 
-1. **The watchlist slugs are unverified.** They were written without network access to the job APIs.
-   Some will be wrong or out of date. Failures are isolated: one bad entry never breaks a run. They show up
-   in the *Source health* panel and the Actions log. Fix or delete them after the first run.
-2. **Pune/Mumbai coverage depends on the watchlist.** Greenhouse, Lever and Ashby are mostly US/EU startups.
-   Most India offices of MNCs hire through **Workday** (supported) or SuccessFactors, Darwinbox, Taleo and custom
-   portals (not supported, since they need brittle HTML scraping). Add Workday tenants of companies with Pune or Mumbai
-   offices to get the most out of it.
-3. **"Every 2 hours" is approximate.** GitHub starts scheduled runs late under load, sometimes by 5–30+ minutes,
-   and occasionally skips one. That is still hours to days ahead of the aggregators.
-4. **Inactivity pause.** GitHub disables cron workflows after 60 days with no repo activity. Data commits count
-   as activity, but if nothing changes for 60 days, re-enable *Scrape* from the Actions tab.
-5. **Remote feeds are mostly full-time roles.** Only postings classified as internships are kept, so expect a
-   few hits a week from them. HN posts one thread a month and is polled every 12 h. Remotive is polled
-   every 6 h, as its API terms ask.
-6. **The classifiers are keyword rules, not magic.** Expect some misses. The stored evidence phrase lets you check
-   any verdict, and `tests/test_classify.py` pins the behavior. Add a case there when you find a miss.
-7. **Currency conversion** uses fixed approximate rates (`tracker/classify/stipend.py`). The original figure is
-   always shown next to the ₹ estimate.
+1. The watchlist slugs are unverified. I wrote them without network access to the job APIs, so some
+   will be wrong or out of date. A bad entry fails on its own without stopping the run, and it shows up
+   in the Source health panel and the Actions log. Fix or delete those entries after the first run.
+2. Pune and Mumbai coverage depends on the watchlist. Greenhouse, Lever and Ashby are mostly used by
+   US and European startups. Most MNCs hire for their Indian offices through Workday, which is
+   supported, or through SuccessFactors, Darwinbox, Taleo and custom portals. Those need fragile HTML
+   scraping, so they aren't supported. Adding Workday tenants of companies with Pune or Mumbai
+   offices helps most.
+3. "Every two hours" is approximate. GitHub starts scheduled runs late when it is busy, sometimes by
+   30 minutes or more, and occasionally skips one. That is still hours or days ahead of the aggregators.
+4. GitHub disables scheduled workflows after 60 days without repo activity. The data commits count as
+   activity, but if nothing changes for 60 days, re-enable Scrape from the Actions tab.
+5. The remote feeds mostly list full-time roles. The tracker keeps only internships, so expect a few
+   hits a week from them. HN posts one hiring thread a month and is checked every 12 hours. Remotive
+   is checked every 6 hours because its API terms ask for infrequent polling.
+6. The classifiers are keyword rules and will miss some cases. The saved evidence phrase lets you
+   check any verdict, and `tests/test_classify.py` pins the current behavior. When you find a miss,
+   add it there as a test case.
+7. Currency conversion uses fixed approximate rates, set in `tracker/classify/stipend.py`. The
+   dashboard always shows the original figure next to the ₹ estimate.
 
 ## Layout
 
@@ -99,5 +107,5 @@ data/        jobs.json, seen.json, status.json   (written by the Scrape workflow
 tests/       pytest suite
 ```
 
-Design: an "industrial command deck" style, inspired by Orderful via refero.design. It is monochrome with one vermillion accent
-for actions and new-role signals. Every token lives in `web/tokens.css`.
+The design follows the Orderful style from refero.design: black and white, with vermillion used only
+for actions and for marking new roles. All design tokens are in `web/tokens.css`.

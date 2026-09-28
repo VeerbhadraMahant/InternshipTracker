@@ -18,16 +18,16 @@ def configured() -> bool:
 def _embed(job: Job) -> dict:
     from . import ELIGIBILITY_LABEL, format_stipend
 
-    where = " · ".join(job.locations[:2]) or ("Remote" if "remote" in job.location_tags else "—")
+    where = " · ".join(job.locations[:2]) or ("Remote" if "remote" in job.location_tags else "Not stated")
     fields = [
         {"name": "Where", "value": where[:200], "inline": True},
         {"name": "Eligibility", "value": f"{ELIGIBILITY_LABEL.get(job.eligibility, job.eligibility)}"
-                                         f"{' — ' + job.eligibility_detail if job.eligibility_detail else ''}"[:200],
+                                         f"{': ' + job.eligibility_detail if job.eligibility_detail else ''}"[:200],
          "inline": True},
         {"name": "Stipend", "value": format_stipend(job)[:200], "inline": True},
     ]
     return {
-        "title": f"{job.company} — {job.title}"[:250],
+        "title": f"{job.company}: {job.title}"[:250],
         "url": job.url,
         "color": VERMILLION,
         "fields": fields,

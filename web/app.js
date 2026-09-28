@@ -135,7 +135,7 @@
     }
     q(".job__title").textContent = j.title;
     const where = j.locations.slice(0, 2).join(" · ") || (j.location_tags.includes("remote") ? "Remote" : "Location not stated");
-    q(".job__meta").textContent = `${where} — found ${ago(j.first_seen)}`;
+    q(".job__meta").textContent = `${where} · found ${ago(j.first_seen)}`;
 
     const e = ELIG[j.eligibility] || ELIG.unknown;
     const badge = q(".job__elig");
@@ -177,7 +177,7 @@
     const ev = detail.querySelector(".evidence");
     ev.textContent = j.eligibility_evidence || "The posting says nothing about who can apply from where.";
     const cite = document.createElement("cite");
-    cite.textContent = `${e.label}${j.eligibility_detail ? " — " + j.eligibility_detail : ""}`;
+    cite.textContent = `${e.label}${j.eligibility_detail ? ": " + j.eligibility_detail : ""}`;
     ev.append(cite);
     const desc = j.description || "";
     detail.querySelector(".job__desc").textContent = desc.length > 600 ? desc.slice(0, 600) + "…" : desc;
