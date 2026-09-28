@@ -1,0 +1,64 @@
+# Companies polled directly on their own hiring system, plus remote job feeds.
+#
+# How to find a company's slug:
+#   greenhouse       boards.greenhouse.io/<slug>        or job-boards.greenhouse.io/<slug>
+#   lever            jobs.lever.co/<slug>
+#   ashby            jobs.ashbyhq.com/<slug>
+#   smartrecruiters  jobs.smartrecruiters.com/<slug>
+#   workday          https://<host>/<site>  e.g. nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite
+#                    -> host: nvidia.wd5.myworkdayjobs.com, slug (tenant): nvidia, site: NVIDIAExternalCareerSite
+#
+# These slugs were written from memory and have not been checked against live
+# endpoints. A wrong one shows up as a failing source on the dashboard's status
+# panel (and in the Actions log). Fix it or delete the entry.
+# Tags are free-form and shown on the dashboard.
+
+companies:
+  # --- Workday: MNCs with Pune / Mumbai engineering centres ---
+  - {name: NVIDIA, ats: workday, host: nvidia.wd5.myworkdayjobs.com, slug: nvidia, site: NVIDIAExternalCareerSite, tags: [pune, ai]}
+  - {name: Mastercard, ats: workday, host: mastercard.wd1.myworkdayjobs.com, slug: mastercard, site: CorporateCareers, tags: [pune]}
+  - {name: Barclays, ats: workday, host: barclays.wd3.myworkdayjobs.com, slug: barclays, site: External_Career_Site_Barclays, tags: [pune]}
+  - {name: Deutsche Bank, ats: workday, host: db.wd3.myworkdayjobs.com, slug: db, site: DBWebsite, tags: [pune, mumbai]}
+  - {name: Salesforce, ats: workday, host: salesforce.wd12.myworkdayjobs.com, slug: salesforce, site: External_Career_Site, tags: [mumbai]}
+  - {name: Adobe, ats: workday, host: adobe.wd5.myworkdayjobs.com, slug: adobe, site: external_experienced, tags: [india]}
+
+  # --- SmartRecruiters ---
+  - {name: Bosch, ats: smartrecruiters, slug: BoschGroup, tags: [pune]}
+  - {name: Visa, ats: smartrecruiters, slug: Visa, tags: [india]}
+  - {name: ServiceNow, ats: smartrecruiters, slug: ServiceNow, tags: [india]}
+
+  # --- Greenhouse: India engineering or remote-friendly ---
+  - {name: Druva, ats: greenhouse, slug: druva, tags: [pune]}
+  - {name: Postman, ats: greenhouse, slug: postman, tags: [india]}
+  - {name: PhonePe, ats: greenhouse, slug: phonepe, tags: [india]}
+  - {name: Databricks, ats: greenhouse, slug: databricks, tags: [ai]}
+  - {name: Cloudflare, ats: greenhouse, slug: cloudflare, tags: []}
+  - {name: GitLab, ats: greenhouse, slug: gitlab, tags: [remote-first]}
+  - {name: Stripe, ats: greenhouse, slug: stripe, tags: []}
+  - {name: Anthropic, ats: greenhouse, slug: anthropic, tags: [ai]}
+  - {name: Scale AI, ats: greenhouse, slug: scaleai, tags: [ai]}
+  - {name: MongoDB, ats: greenhouse, slug: mongodb, tags: []}
+  - {name: Grafana Labs, ats: greenhouse, slug: grafanalabs, tags: [remote-first]}
+  - {name: Coinbase, ats: greenhouse, slug: coinbase, tags: [remote-first]}
+
+  # --- Lever ---
+  - {name: CRED, ats: lever, slug: cred, tags: [india]}
+  - {name: Zeta, ats: lever, slug: zeta, tags: [india]}
+  - {name: Palantir, ats: lever, slug: palantir, tags: []}
+
+  # --- Ashby ---
+  - {name: OpenAI, ats: ashby, slug: openai, tags: [ai]}
+  - {name: Supabase, ats: ashby, slug: supabase, tags: [remote-first]}
+  - {name: PostHog, ats: ashby, slug: posthog, tags: [remote-first]}
+  - {name: Linear, ats: ashby, slug: linear, tags: [remote-first]}
+  - {name: Ramp, ats: ashby, slug: ramp, tags: []}
+
+feeds:
+  remoteok: {}
+  remotive:
+    categories: [software-dev, data]
+    min_interval_hours: 6        # Remotive asks API users to poll a few times a day at most
+  weworkremotely:
+    categories: [remote-programming-jobs, remote-full-stack-programming-jobs, remote-back-end-programming-jobs]
+  hn-whoishiring:
+    min_interval_hours: 12       # one thread per month; no need to hammer it

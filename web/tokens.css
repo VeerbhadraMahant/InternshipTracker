@@ -1,0 +1,64 @@
+/* Design tokens — "industrial command deck" (Orderful-inspired, via refero.design).
+   Components in styles.css reference only these variables. */
+:root {
+  /* Color */
+  --color-vermillion-signal: #e42b0c;
+  --gradient-vermillion-signal: linear-gradient(94deg, rgb(255, 2, 1) -33.85%, rgb(255, 120, 2) -1.54%, rgb(255, 2, 1) 73.55%);
+  --color-ink-black: #000000;
+  --color-carbon: #1f1f1f;
+  --color-slate-900: #101828;
+  --color-slate-700: #364153;
+  --color-slate-600: #4a5565;
+  --color-steel: #676767;
+  --color-iron: #8a8a8a;
+  --color-mist: #99a1af;
+  --color-cloud: #d4d4d4;
+  --color-frost: #e5e7eb;
+  --color-paper: #ffffff;
+  --color-vellum: #f5f5f5;
+
+  /* Surfaces */
+  --surface-canvas: var(--color-vellum);
+  --surface-card: var(--color-paper);
+  --surface-panel: var(--color-carbon);
+
+  /* Type. Telegraf is proprietary; Inter is the listed substitute. */
+  --font-sans: 'telegraf', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-micro: 12px;       --leading-micro: 1.5;     --tracking-micro: 0.3px;
+  --text-caption: 14px;     --leading-caption: 1.43;
+  --text-body-sm: 16px;     --leading-body-sm: 1.5;
+  --text-body: 18px;        --leading-body: 1.5;
+  --text-subheading: 24px;  --leading-subheading: 1.38;
+  --text-heading-sm: 30px;  --leading-heading-sm: 1.33;
+  --text-heading: 48px;     --leading-heading: 1.2;   --tracking-heading: -1.2px;
+  --text-heading-lg: 60px;  --leading-heading-lg: 1;  --tracking-heading-lg: -1.5px;
+  --text-display: 72px;     --leading-display: 1;     --tracking-display: -2.16px;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* Space (8px base) */
+  --space-8: 8px;  --space-16: 16px; --space-24: 24px; --space-32: 32px;
+  --space-40: 40px; --space-48: 48px; --space-64: 64px; --space-80: 80px;
+
+  /* Shape & depth — one radius, one shadow */
+  --radius: 8px;
+  --shadow-subtle: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+
+  /* Layout */
+  --page-max: 1200px;
+  --nav-height: 64px;
+  --gutter: 24px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --text-display: 44px;   --tracking-display: -1.2px;
+    --text-heading-lg: 44px; --tracking-heading-lg: -1.2px;
+    --gutter: 16px;
+  }
+}

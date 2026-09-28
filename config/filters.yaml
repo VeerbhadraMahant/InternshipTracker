@@ -1,0 +1,23 @@
+# Which NEW roles trigger an alert. The dashboard shows everything and has its own filters.
+
+# Any of: pune, mumbai, india (anywhere in India), remote, other
+locations: [pune, mumbai, remote]
+
+# Any of: software, ai-ml, data, other
+fields: [software, ai-ml, data]
+
+# Any of:
+#   india-ok         in India, or remote with India/IST/APAC explicitly allowed
+#   open-worldwide   remote and explicitly worldwide
+#   unknown          remote, says nothing either way (worth a look, often fine)
+#   timezone         remote but tied to non-IST working hours
+#   needs-work-auth  requires work authorization / no visa sponsorship
+#   restricted       remote but limited to regions excluding India
+#   onsite-abroad    on-site outside India
+eligibility: [india-ok, open-worldwide, unknown]
+
+# Stipend floor in INR per month (foreign pay converted at approximate rates).
+min_stipend_inr_month: 0
+
+# Most listings don't state pay. Set false to alert only on roles with a disclosed stipend.
+include_undisclosed_stipend: true
