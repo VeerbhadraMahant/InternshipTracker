@@ -3,7 +3,7 @@
 A free tracker for software, CS and AI internships in Pune, Mumbai and remote. Every two hours a
 GitHub Action checks a watchlist of companies' own hiring systems and a few trusted remote job feeds.
 It keeps the internships, works out who can apply to each one, and sends an email and a Discord
-message when a new role matches your filters. The dashboard is a static site on Vercel.
+message when a new role matches your filters. The dashboard is a static site on Cloudflare Workers.
 
 There are no servers, no database and no paid APIs. The job data lives in the repo as JSON.
 
@@ -15,7 +15,7 @@ GitHub Actions (cron, every 2h)
        ├─ classify/  internship? · field · location · eligibility · stipend
        ├─ store.py   data/jobs.json, data/seen.json, data/status.json  → committed
        └─ alerts/    Discord webhook + email digest, new matches only
-Vercel  ← scripts/build_site.sh copies web/ + data/*.json into _site/   (filtering runs in the browser)
+Cloudflare Workers  ← wrangler deploys _site/ (web/ + data/*.json)   (filtering runs in the browser)
 ```
 
 ## How roles are tagged
@@ -34,41 +34,67 @@ located in the United States".
 
 ## Setup
 
-This takes about fifteen minutes.
+This takes about fifteen minutes. You need a free Cloudflare account.
 
-1. Merge this branch into `main`. GitHub only runs scheduled workflows from the default branch.
-2. Import the repo into Vercel: vercel.com → Add New → Project → pick `InternshipTracker` → Deploy.
-   Leave the framework preset as "Other". `vercel.json` already sets the build command
-   (`scripts/build_site.sh`) and the output folder (`_site`), so there is nothing to fill in.
-3. Create a deploy hook in Vercel: Project → Settings → Git → Deploy Hooks, named `scrape`, branch `main`.
-   Copy the URL. The Scrape workflow calls it after each data commit. It is needed for a private repo,
-   because Vercel's free plan can refuse to deploy commits that the Actions bot pushes. On a public repo
-   it is optional, and without it you get one deploy per data commit instead of two.
-4. In GitHub, add secrets under Settings → Secrets and variables → Actions → Secrets. The tracker skips
+1. Merge into `main`. GitHub only runs scheduled workflows from the default branch.
+2. In the Cloudflare dashboard, open Workers & Pages once. The first visit asks you to pick a
+   `workers.dev` subdomain. Your site will live at `https://internship-tracker.<subdomain>.workers.dev`.
+3. Create an API token: My Profile → API Tokens → Create Token → use the "Edit Cloudflare Workers"
+   template and scope it to your account. Copy the token, because Cloudflare shows it only once.
+4. Find your Account ID under Workers & Pages → Overview, in the right-hand column. `npx wrangler whoami` also prints it.
+5. In GitHub, add these under Settings → Secrets and variables → Actions → Secrets. The tracker skips
    any alert channel whose secrets are missing.
 
    | Secret | Value |
    |---|---|
-   | `VERCEL_DEPLOY_HOOK_URL` | The deploy hook URL from step 3 |
+   | `CLOUDFLARE_API_TOKEN` | The token from step 3 |
+   | `CLOUDFLARE_ACCOUNT_ID` | The ID from step 4 |
    | `DISCORD_WEBHOOK_URL` | In Discord: Server settings → Integrations → Webhooks → New webhook → Copy URL |
    | `SMTP_USER` | Your Gmail address |
    | `SMTP_APP_PASSWORD` | Google Account → Security → 2-Step Verification → App passwords (16 characters) |
    | `ALERT_EMAIL_TO` | The address that receives alerts (can be the same one) |
 
    For another mail provider, also set `SMTP_HOST` and `SMTP_PORT` (SSL) in the workflow env.
-5. On the Variables tab next to Secrets, add `DASHBOARD_URL` with your Vercel URL, for example
-   `https://internship-tracker.vercel.app`. Alerts link to it.
-6. Run the scraper once from Actions → Scrape → Run workflow. The first run records every current role
-   as seen and sends nothing, so you don't get hundreds of alerts. After that, only new roles trigger alerts.
-7. Open the Vercel URL and check the Source health panel at the bottom for watchlist entries that fail
-   (see the first caveat below).
+6. On the Variables tab, add `DASHBOARD_URL` with your workers.dev URL. Alerts link to it.
+7. Run Actions → Deploy → Run workflow to publish the dashboard. It will be empty until the first scrape.
+8. Run Actions → Scrape → Run workflow. The first run records every current role as seen and sends
+   nothing, so you don't get hundreds of alerts. When it finishes, Deploy runs again with the data.
+9. Open your workers.dev URL and check the Source health panel at the bottom for watchlist entries
+   that fail (see the first caveat below).
 
-About deploy counts: the scraper commits at most 12 times a day. With the hook that is up to 24
-deploys a day, well under the free plan's daily limit. `vercel.json` also skips deploys for commits
-that only touch the Python code or tests, since those don't change the site.
+## How the Cloudflare part works
 
-A private repo works on Vercel. GitHub Actions then has a 2,000 minute monthly allowance on the free
-plan, and 12 runs a day at a minute or two each fits inside it.
+The dashboard is a Cloudflare Worker with no code of its own. It uses Workers static assets:
+Cloudflare stores the files in `_site/` and serves them from its edge network, close to whoever
+opens the page. Requests for static files don't run Worker code, so they are free and don't count
+toward the free plan's 100,000 requests a day.
+
+- `wrangler.jsonc` is the Worker's config. `build.command` runs `scripts/build_site.sh`, which copies
+  `web/` and `data/*.json` into `_site/`, and `assets.directory` tells Cloudflare to serve that folder.
+- `web/_headers` sets response headers. The data files get `max-age=0, must-revalidate`, so a
+  reload always shows the latest roles. Cloudflare reads this file but doesn't serve it.
+- `.github/workflows/deploy.yml` runs `wrangler deploy` with your API token. It runs on pushes to
+  `main` that change the site, and after every Scrape run. Wrangler only uploads files whose
+  content changed, so a run with no new data uploads almost nothing.
+- Every deploy creates a new version. Workers & Pages → internship-tracker → Deployments lists
+  them, and you can roll back to an older one from there.
+
+To try it locally (needs Node 18 or newer):
+
+```bash
+npx wrangler login                 # opens a browser to authorize your account
+npx wrangler dev                   # builds _site/ and serves it at http://localhost:8787 on Cloudflare's runtime
+npx wrangler deploy --dry-run      # checks the config and lists what would upload, without deploying
+npx wrangler deploy                # deploys from your machine, same as the Deploy workflow
+npx wrangler tail                  # streams live request logs from the deployed Worker
+```
+
+Next steps that fit this project, if you want to go further:
+
+- Add a Worker script (`"main": "src/index.js"` in `wrangler.jsonc`) for routes like `/api/jobs?loc=pune`.
+  Static files are still served first, and the script only runs for paths that aren't files.
+- Move `data/*.json` out of git into Workers KV or R2, and have the scraper upload there instead of committing.
+- Attach a custom domain under the Worker's Settings → Domains & Routes.
 
 ## Configuration
 
@@ -86,7 +112,7 @@ python -m pytest -q                               # parsers + classifiers + runn
 python -m tracker.run --dry-run                   # fetch & classify everything, write nothing, alert nothing
 python -m tracker.run --dry-run --only greenhouse:druva   # one source
 python -m tracker.run --test-alert                # send one sample alert (needs the env vars above)
-sh scripts/build_site.sh && python -m http.server -d _site 8000   # then open http://localhost:8000
+npx wrangler dev                                  # dashboard at http://localhost:8787
 ```
 
 ## Caveats
@@ -119,8 +145,8 @@ tracker/     models, http, config, store, run, sources/, classify/, alerts/
 config/      watchlist.yaml, filters.yaml
 web/         index.html, app.js, tokens.css (design tokens), styles.css
 data/        jobs.json, seen.json, status.json   (written by the Scrape workflow)
-scripts/     build_site.sh (assembles _site/ for Vercel)
-vercel.json  build settings, cache headers, skip rules
+scripts/     build_site.sh (assembles _site/ for deploys)
+wrangler.jsonc  Cloudflare Worker config
 tests/       pytest suite
 ```
 

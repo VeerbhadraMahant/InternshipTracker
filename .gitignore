@@ -4,3 +4,5 @@ __pycache__/
 .venv/
 _site/
 data/*.tmp
+.wrangler/
+node_modules/

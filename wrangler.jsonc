@@ -1,0 +1,21 @@
+// Cloudflare Worker config. This Worker has no script of its own: it only serves the
+// static files in _site/ (the dashboard plus data/*.json) from Cloudflare's edge.
+// Docs: https://developers.cloudflare.com/workers/static-assets/
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "internship-tracker",
+  "compatibility_date": "2026-09-01",
+
+  // `wrangler deploy` and `wrangler dev` run this first, so _site/ is always fresh.
+  "build": {
+    "command": "sh scripts/build_site.sh"
+  },
+
+  "assets": {
+    "directory": "./_site",
+    "not_found_handling": "none"
+  },
+
+  // Serve on <name>.<your-subdomain>.workers.dev. Add "routes" here later for a custom domain.
+  "workers_dev": true
+}
