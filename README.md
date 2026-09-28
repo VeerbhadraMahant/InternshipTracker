@@ -3,7 +3,7 @@
 A free tracker for software, CS and AI internships in Pune, Mumbai and remote. Every two hours a
 GitHub Action checks a watchlist of companies' own hiring systems and a few trusted remote job feeds.
 It keeps the internships, works out who can apply to each one, and sends an email and a Discord
-message when a new role matches your filters. The dashboard is a static page on GitHub Pages.
+message when a new role matches your filters. The dashboard is a static site on Vercel.
 
 There are no servers, no database and no paid APIs. The job data lives in the repo as JSON.
 
@@ -15,7 +15,7 @@ GitHub Actions (cron, every 2h)
        ├─ classify/  internship? · field · location · eligibility · stipend
        ├─ store.py   data/jobs.json, data/seen.json, data/status.json  → committed
        └─ alerts/    Discord webhook + email digest, new matches only
-GitHub Pages  ← web/ + data/*.json   (client-side filtering, no build step)
+Vercel  ← scripts/build_site.sh copies web/ + data/*.json into _site/   (filtering runs in the browser)
 ```
 
 ## How roles are tagged
@@ -34,26 +34,41 @@ located in the United States".
 
 ## Setup
 
-This takes about ten minutes.
+This takes about fifteen minutes.
 
 1. Merge this branch into `main`. GitHub only runs scheduled workflows from the default branch.
-2. Make the repo public. Free GitHub Pages requires it, and public repos get unlimited Actions minutes.
-   The data is public job listings, and your secrets stay private.
-3. Turn on Pages: Settings → Pages → Source: GitHub Actions.
-4. Add the alert secrets under Settings → Secrets and variables → Actions. If a channel has no secrets, the tracker skips it.
+2. Import the repo into Vercel: vercel.com → Add New → Project → pick `InternshipTracker` → Deploy.
+   Leave the framework preset as "Other". `vercel.json` already sets the build command
+   (`scripts/build_site.sh`) and the output folder (`_site`), so there is nothing to fill in.
+3. Create a deploy hook in Vercel: Project → Settings → Git → Deploy Hooks, named `scrape`, branch `main`.
+   Copy the URL. The Scrape workflow calls it after each data commit. It is needed for a private repo,
+   because Vercel's free plan can refuse to deploy commits that the Actions bot pushes. On a public repo
+   it is optional, and without it you get one deploy per data commit instead of two.
+4. In GitHub, add secrets under Settings → Secrets and variables → Actions → Secrets. The tracker skips
+   any alert channel whose secrets are missing.
 
    | Secret | Value |
    |---|---|
+   | `VERCEL_DEPLOY_HOOK_URL` | The deploy hook URL from step 3 |
    | `DISCORD_WEBHOOK_URL` | In Discord: Server settings → Integrations → Webhooks → New webhook → Copy URL |
    | `SMTP_USER` | Your Gmail address |
    | `SMTP_APP_PASSWORD` | Google Account → Security → 2-Step Verification → App passwords (16 characters) |
    | `ALERT_EMAIL_TO` | The address that receives alerts (can be the same one) |
 
    For another mail provider, also set `SMTP_HOST` and `SMTP_PORT` (SSL) in the workflow env.
-5. Run it once from Actions → Scrape → Run workflow. The first run records every current role as
-   seen and sends nothing, so you don't get hundreds of alerts. After that, only new roles trigger alerts.
-6. Open `https://<you>.github.io/InternshipTracker/` and check the Source health panel at the bottom
-   for watchlist entries that fail (see the first caveat below).
+5. On the Variables tab next to Secrets, add `DASHBOARD_URL` with your Vercel URL, for example
+   `https://internship-tracker.vercel.app`. Alerts link to it.
+6. Run the scraper once from Actions → Scrape → Run workflow. The first run records every current role
+   as seen and sends nothing, so you don't get hundreds of alerts. After that, only new roles trigger alerts.
+7. Open the Vercel URL and check the Source health panel at the bottom for watchlist entries that fail
+   (see the first caveat below).
+
+About deploy counts: the scraper commits at most 12 times a day. With the hook that is up to 24
+deploys a day, well under the free plan's daily limit. `vercel.json` also skips deploys for commits
+that only touch the Python code or tests, since those don't change the site.
+
+A private repo works on Vercel. GitHub Actions then has a 2,000 minute monthly allowance on the free
+plan, and 12 runs a day at a minute or two each fits inside it.
 
 ## Configuration
 
@@ -71,7 +86,7 @@ python -m pytest -q                               # parsers + classifiers + runn
 python -m tracker.run --dry-run                   # fetch & classify everything, write nothing, alert nothing
 python -m tracker.run --dry-run --only greenhouse:druva   # one source
 python -m tracker.run --test-alert                # send one sample alert (needs the env vars above)
-python -m http.server -d . 8000                   # then open http://localhost:8000/web/
+sh scripts/build_site.sh && python -m http.server -d _site 8000   # then open http://localhost:8000
 ```
 
 ## Caveats
@@ -104,6 +119,8 @@ tracker/     models, http, config, store, run, sources/, classify/, alerts/
 config/      watchlist.yaml, filters.yaml
 web/         index.html, app.js, tokens.css (design tokens), styles.css
 data/        jobs.json, seen.json, status.json   (written by the Scrape workflow)
+scripts/     build_site.sh (assembles _site/ for Vercel)
+vercel.json  build settings, cache headers, skip rules
 tests/       pytest suite
 ```
 
