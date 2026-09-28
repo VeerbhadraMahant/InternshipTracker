@@ -1,0 +1,71 @@
+/* Design tokens: "golden hour workbench" (Harvest style, via refero.design).
+   Components in styles.css reference only these variables. */
+:root {
+  /* Color */
+  --color-flame: #fa5d00;
+  --color-flame-hover: #e05300;
+  --color-marigold-glow: #fee3b5;
+  --color-parchment-shadow: #e3d6c5;
+  --color-ink: #1d1e1c;
+  --color-paper: #ffffff;
+  --color-cream: #fff8f1;
+  --color-mist: #d9d9d9;
+  --color-warm-stone: #615f5c;
+  --color-driftwood: #8e8b87;
+  --color-ironwood: #4a4a47;
+  --color-ash: #777571;
+  --color-bone: #c0bbb6;
+  --color-smoke: #a5a19c;
+
+  /* Surfaces */
+  --surface-canvas: var(--color-cream);
+  --surface-card: var(--color-paper);
+
+  /* Type. MuotoWeb and Monarch are proprietary; Inter and Newsreader stand in. */
+  --font-sans: 'MuotoWeb', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Monarch', 'Newsreader', 'Tiempos Headline', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --tracking: 0.015em;
+
+  --text-caption: 13px;     --leading-caption: 1.35;
+  --text-small: 14px;       --leading-small: 1.4;
+  --text-body: 16px;        --leading-body: 1.5;
+  --text-body-lg: 17px;     --leading-body-lg: 1.4;
+  --text-subheading: 18px;  --leading-subheading: 1.4;
+  --text-heading-sm: 20px;  --leading-heading-sm: 1.3;
+  --text-heading: 24px;     --leading-heading: 1.26;
+  --text-heading-lg: 28px;  --leading-heading-lg: 1.2;
+  --text-display: 48px;     --leading-display: 1.15;
+  --text-display-lg: 72px;  --leading-display-lg: 1.1;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Space */
+  --space-4: 4px;  --space-10: 10px; --space-16: 16px; --space-20: 20px;
+  --space-25: 25px; --space-30: 30px; --space-40: 40px; --space-50: 50px;
+  --space-80: 80px; --space-100: 100px;
+
+  /* Shape and depth */
+  --radius-card: 20px;
+  --radius-control: 16px;
+  --radius-pill: 999px;
+  --shadow-sm: rgba(0, 0, 0, 0.2) 0px 1px 4px 0px;
+  --shadow-warm: rgba(250, 166, 0, 0.25) 6px 4px 24px 0px;
+  --shadow-card: 0 1px 2px var(--color-parchment-shadow), 0 8px 24px rgba(227, 214, 197, 0.45);
+
+  /* Layout */
+  --page-max: 1200px;
+  --nav-height: 72px;
+  --gutter: 30px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --text-display-lg: 44px;
+    --text-display: 34px;
+    --gutter: 16px;
+  }
+}

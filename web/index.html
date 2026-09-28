@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Internship Tracker</title>
+  <meta name="description" content="Software, CS and AI internships in Pune, Mumbai and remote, pulled from company hiring systems every two hours.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%23fa5d00'/%3E%3Ctext x='16' y='24' font-size='22' text-anchor='middle' fill='%23ffffff' font-family='Arial'%3E*%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="wordmark" href="./">Internships<span class="wordmark__star">*</span></a>
+      <span class="eyebrow-pill" id="freshness">Loading…</span>
+      <a class="btn btn--primary nav__cta" href="#jobs">View roles</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero__wash" aria-hidden="true"></div>
+      <div class="hero__copy">
+        <p class="eyebrow">Pune · Mumbai · Remote</p>
+        <h1 class="display">Internships, before they spread.</h1>
+        <p class="lede">Pulled every two hours from companies' own hiring systems and trusted remote feeds.
+          Each role is checked for country, timezone and work-authorization limits, and for a stated stipend.</p>
+      </div>
+      <dl class="stats">
+        <div class="stat card"><dt>Open roles</dt><dd id="stat-open">–</dd></div>
+        <div class="stat card"><dt>New since your last visit</dt><dd id="stat-new">–</dd></div>
+        <div class="stat card"><dt>Open to you</dt><dd id="stat-eligible">–</dd></div>
+      </dl>
+    </section>
+
+    <section class="filters card" aria-label="Filters">
+      <div class="filters__row">
+        <label class="search">
+          <span class="visually-hidden">Search</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input id="q" type="search" placeholder="Company, role or skill" autocomplete="off">
+        </label>
+        <label class="select">
+          <span class="field-label">Stipend</span>
+          <select id="stipend">
+            <option value="any">Any</option>
+            <option value="disclosed">Disclosed only</option>
+            <option value="10000">≥ ₹10k / mo</option>
+            <option value="25000">≥ ₹25k / mo</option>
+            <option value="50000">≥ ₹50k / mo</option>
+            <option value="100000">≥ ₹1L / mo</option>
+          </select>
+        </label>
+        <label class="select">
+          <span class="field-label">Sort</span>
+          <select id="sort">
+            <option value="new">Newest first</option>
+            <option value="stipend">Highest stipend</option>
+            <option value="company">Company A–Z</option>
+          </select>
+        </label>
+      </div>
+      <div class="filters__group">
+        <span class="field-label">Location</span>
+        <div class="seg" id="loc" role="group" aria-label="Location">
+          <button type="button" data-v="all">All</button>
+          <button type="button" data-v="pune">Pune</button>
+          <button type="button" data-v="mumbai">Mumbai</button>
+          <button type="button" data-v="remote">Remote</button>
+          <button type="button" data-v="india">India</button>
+        </div>
+      </div>
+      <div class="filters__group">
+        <span class="field-label">Field</span>
+        <div class="chips" id="field" role="group" aria-label="Field"></div>
+      </div>
+      <div class="filters__group">
+        <span class="field-label">Eligibility</span>
+        <div class="chips" id="elig" role="group" aria-label="Eligibility"></div>
+      </div>
+    </section>
+
+    <section id="jobs" class="results">
+      <div class="results__head">
+        <h2 class="heading-sm" id="count">Loading roles…</h2>
+        <label class="toggle"><input type="checkbox" id="closed"> Show closed</label>
+      </div>
+      <ol class="joblist card" id="list" aria-live="polite"></ol>
+      <p class="empty" id="empty" hidden>No roles match these filters. Try widening eligibility or location.</p>
+    </section>
+
+    <section class="panel card" aria-labelledby="health-title">
+      <details id="health">
+        <summary>
+          <span class="eyebrow">Source health</span>
+          <span id="health-title" class="panel__summary">–</span>
+        </summary>
+        <table class="health">
+          <thead><tr><th>Source</th><th>Status</th><th>Postings</th><th>Internships</th><th>Last success</th></tr></thead>
+          <tbody id="health-body"></tbody>
+        </table>
+      </details>
+      <p class="panel__note">Eligibility comes from the posting text. "Unclear" means the listing doesn't say who can apply.
+        Open a row to see the phrase each verdict is based on. Foreign stipends are converted to INR at approximate rates.</p>
+    </section>
+  </main>
+
+  <template id="row-tpl">
+    <li class="job">
+      <button class="job__main" type="button" aria-expanded="false">
+        <span class="job__who">
+          <span class="job__company"></span>
+          <span class="job__title"></span>
+          <span class="job__meta"></span>
+        </span>
+        <span class="job__elig badge"></span>
+        <span class="job__pay"></span>
+      </button>
+      <a class="job__apply link" target="_blank" rel="noopener noreferrer">Apply <span aria-hidden="true">→</span></a>
+      <div class="job__detail" hidden>
+        <blockquote class="evidence"></blockquote>
+        <p class="job__desc"></p>
+        <p class="job__facts"></p>
+      </div>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
