@@ -44,6 +44,13 @@ def test_fields_from_title(title, expected):
     assert classify_fields(job(title)) == expected
 
 
+def test_fields_description_needs_specific_ai_terms():
+    j = job("HR Apprentice", description="Join our AI-driven bank's people team. ML experience not needed.")
+    assert classify_fields(j) == ["other"]
+    j = job("Summer Intern", description="Train models in PyTorch and evaluate LLMs.")
+    assert "ai-ml" in classify_fields(j)
+
+
 def test_fields_fallback_to_description():
     j = job("Summer Intern 2027", description="You will write Python and SQL services with React frontends.")
     assert classify_fields(j) == ["software"]

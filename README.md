@@ -15,7 +15,7 @@ GitHub Actions (cron, every 2h)
        ├─ classify/  internship? · field · location · eligibility · stipend
        ├─ store.py   data/jobs.json, data/seen.json, data/status.json  → committed
        └─ alerts/    Discord webhook + email digest, new matches only
-Cloudflare Workers  ← wrangler deploys _site/ (web/ + data/*.json)   (filtering runs in the browser)
+Cloudflare Workers  ← rebuilds _site/ (web/ + data/*.json) on every push to main   (filtering runs in the browser)
 ```
 
 ## How roles are tagged
@@ -34,33 +34,36 @@ located in the United States".
 
 ## Setup
 
-This takes about fifteen minutes. You need a free Cloudflare account.
+Live dashboard: https://internshiptracker.mahantveerbhadra596.workers.dev
+
+To set up your own copy (about ten minutes, free Cloudflare account):
 
 1. Merge into `main`. GitHub only runs scheduled workflows from the default branch.
-2. In the Cloudflare dashboard, open Workers & Pages once. The first visit asks you to pick a
-   `workers.dev` subdomain. Your site will live at `https://internship-tracker.<subdomain>.workers.dev`.
-3. Create an API token: My Profile → API Tokens → Create Token → use the "Edit Cloudflare Workers"
-   template and scope it to your account. Copy the token, because Cloudflare shows it only once.
-4. Find your Account ID under Workers & Pages → Overview, in the right-hand column. `npx wrangler whoami` also prints it.
-5. In GitHub, add these under Settings → Secrets and variables → Actions → Secrets. The tracker skips
-   any alert channel whose secrets are missing.
+2. In the Cloudflare dashboard, go to Workers & Pages → Create → Import a repository. Connect GitHub,
+   allow access to this repo and select it.
+3. Use these build settings:
+   - Project name: the `name` in `wrangler.jsonc` (`internshiptracker`). If you pick a different
+     name, change `wrangler.jsonc` to match, or the build fails.
+   - Production branch: `main`
+   - Build command: leave empty
+   - Deploy command: `npx wrangler deploy`
+4. Save and Deploy. When the build finishes, Cloudflare shows the site's `workers.dev` URL.
+5. In GitHub, add alert secrets under Settings → Secrets and variables → Actions → Secrets. The
+   tracker skips any alert channel whose secrets are missing.
 
    | Secret | Value |
    |---|---|
-   | `CLOUDFLARE_API_TOKEN` | The token from step 3 |
-   | `CLOUDFLARE_ACCOUNT_ID` | The ID from step 4 |
    | `DISCORD_WEBHOOK_URL` | In Discord: Server settings → Integrations → Webhooks → New webhook → Copy URL |
    | `SMTP_USER` | Your Gmail address |
    | `SMTP_APP_PASSWORD` | Google Account → Security → 2-Step Verification → App passwords (16 characters) |
    | `ALERT_EMAIL_TO` | The address that receives alerts (can be the same one) |
 
    For another mail provider, also set `SMTP_HOST` and `SMTP_PORT` (SSL) in the workflow env.
-6. On the Variables tab, add `DASHBOARD_URL` with your workers.dev URL. Alerts link to it.
-7. Run Actions → Deploy → Run workflow to publish the dashboard. It will be empty until the first scrape.
-8. Run Actions → Scrape → Run workflow. The first run records every current role as seen and sends
-   nothing, so you don't get hundreds of alerts. When it finishes, Deploy runs again with the data.
-9. Open your workers.dev URL and check the Source health panel at the bottom for watchlist entries
-   that fail (see the first caveat below).
+6. On the Variables tab, add `DASHBOARD_URL` with your `workers.dev` URL. Alerts link to it.
+7. Run Actions → Scrape → Run workflow, or wait for the next scheduled run. The first run records
+   every current role as seen and sends nothing, so you don't get hundreds of alerts. It commits
+   the data to `main`, and Cloudflare rebuilds the site from that commit.
+8. Open the site and check the Source health panel at the bottom for watchlist entries that fail.
 
 ## How the Cloudflare part works
 
@@ -69,23 +72,22 @@ Cloudflare stores the files in `_site/` and serves them from its edge network, c
 opens the page. Requests for static files don't run Worker code, so they are free and don't count
 toward the free plan's 100,000 requests a day.
 
+- Cloudflare's Git integration (Workers Builds) watches `main`. Every push, including the scraper's
+  data commits, starts a build that runs `npx wrangler deploy`. No API tokens or GitHub secrets are
+  involved. Builds are listed under Workers & Pages → internshiptracker → Deployments, and you can
+  roll back to an older version from there.
 - `wrangler.jsonc` is the Worker's config. `build.command` runs `scripts/build_site.sh`, which copies
   `web/` and `data/*.json` into `_site/`, and `assets.directory` tells Cloudflare to serve that folder.
 - `web/_headers` sets response headers. The data files get `max-age=0, must-revalidate`, so a
   reload always shows the latest roles. Cloudflare reads this file but doesn't serve it.
-- `.github/workflows/deploy.yml` runs `wrangler deploy` with your API token. It runs on pushes to
-  `main` that change the site, and after every Scrape run. Wrangler only uploads files whose
-  content changed, so a run with no new data uploads almost nothing.
-- Every deploy creates a new version. Workers & Pages → internship-tracker → Deployments lists
-  them, and you can roll back to an older one from there.
 
 To try it locally (needs Node 18 or newer):
 
 ```bash
-npx wrangler login                 # opens a browser to authorize your account
 npx wrangler dev                   # builds _site/ and serves it at http://localhost:8787 on Cloudflare's runtime
 npx wrangler deploy --dry-run      # checks the config and lists what would upload, without deploying
-npx wrangler deploy                # deploys from your machine, same as the Deploy workflow
+npx wrangler login                 # only needed for the next two
+npx wrangler deploy                # deploys from your machine instead of waiting for a push
 npx wrangler tail                  # streams live request logs from the deployed Worker
 ```
 

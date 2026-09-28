@@ -8,9 +8,9 @@
 #   workday          https://<host>/<site>  e.g. nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite
 #                    -> host: nvidia.wd5.myworkdayjobs.com, slug (tenant): nvidia, site: NVIDIAExternalCareerSite
 #
-# These slugs were written from memory and have not been checked against live
-# endpoints. A wrong one shows up as a failing source on the dashboard's status
-# panel (and in the Actions log). Fix it or delete the entry.
+# A wrong slug shows up as a failing source in the dashboard's Source health panel
+# and in the Actions log. After the first live run (Sept 2026) every entry below
+# answered; PhonePe and Postman (404) and Visa (empty board) were removed.
 # Tags are free-form and shown on the dashboard.
 
 companies:
@@ -24,13 +24,10 @@ companies:
 
   # --- SmartRecruiters ---
   - {name: Bosch, ats: smartrecruiters, slug: BoschGroup, tags: [pune]}
-  - {name: Visa, ats: smartrecruiters, slug: Visa, tags: [india]}
   - {name: ServiceNow, ats: smartrecruiters, slug: ServiceNow, tags: [india]}
 
   # --- Greenhouse: India engineering or remote-friendly ---
   - {name: Druva, ats: greenhouse, slug: druva, tags: [pune]}
-  - {name: Postman, ats: greenhouse, slug: postman, tags: [india]}
-  - {name: PhonePe, ats: greenhouse, slug: phonepe, tags: [india]}
   - {name: Databricks, ats: greenhouse, slug: databricks, tags: [ai]}
   - {name: Cloudflare, ats: greenhouse, slug: cloudflare, tags: []}
   - {name: GitLab, ats: greenhouse, slug: gitlab, tags: [remote-first]}
