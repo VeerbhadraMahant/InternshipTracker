@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Internship Tracker</title>
   <meta name="description" content="Software, CS and AI internships in Pune, Mumbai and remote, pulled from company hiring systems every two hours.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23101828'/%3E%3Ctext x='16' y='24' font-size='22' text-anchor='middle' fill='%23e42b0c' font-family='Arial'%3E*%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%23fa5d00'/%3E%3Ctext x='16' y='24' font-size='22' text-anchor='middle' fill='%23ffffff' font-family='Arial'%3E*%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -17,12 +17,13 @@
     <div class="nav__inner">
       <a class="wordmark" href="./">Internships<span class="wordmark__star">*</span></a>
       <span class="eyebrow-pill" id="freshness">Loading…</span>
-      <a class="btn btn--gradient nav__cta" href="#jobs">View roles <span aria-hidden="true">→</span></a>
+      <a class="btn btn--primary nav__cta" href="#jobs">View roles</a>
     </div>
   </header>
 
   <main class="page">
-    <section class="hero card">
+    <section class="hero">
+      <div class="hero__wash" aria-hidden="true"></div>
       <div class="hero__copy">
         <p class="eyebrow">Pune · Mumbai · Remote</p>
         <h1 class="display">Internships, before they spread.</h1>
@@ -30,9 +31,9 @@
           Each role is checked for country, timezone and work-authorization limits, and for a stated stipend.</p>
       </div>
       <dl class="stats">
-        <div class="stat"><dt>Open roles</dt><dd id="stat-open">–</dd></div>
-        <div class="stat"><dt>New since your last visit</dt><dd id="stat-new">–</dd></div>
-        <div class="stat"><dt>Open to you</dt><dd id="stat-eligible">–</dd></div>
+        <div class="stat card"><dt>Open roles</dt><dd id="stat-open">–</dd></div>
+        <div class="stat card"><dt>New since your last visit</dt><dd id="stat-new">–</dd></div>
+        <div class="stat card"><dt>Open to you</dt><dd id="stat-eligible">–</dd></div>
       </dl>
     </section>
 
@@ -92,10 +93,10 @@
       <p class="empty" id="empty" hidden>No roles match these filters. Try widening eligibility or location.</p>
     </section>
 
-    <section class="panel" aria-labelledby="health-title">
+    <section class="panel card" aria-labelledby="health-title">
       <details id="health">
         <summary>
-          <span class="eyebrow eyebrow--inverse">Source health</span>
+          <span class="eyebrow">Source health</span>
           <span id="health-title" class="panel__summary">–</span>
         </summary>
         <table class="health">
@@ -119,7 +120,7 @@
         <span class="job__elig badge"></span>
         <span class="job__pay"></span>
       </button>
-      <a class="job__apply btn btn--dark" target="_blank" rel="noopener noreferrer">Apply <span aria-hidden="true">↗</span></a>
+      <a class="job__apply link" target="_blank" rel="noopener noreferrer">Apply <span aria-hidden="true">→</span></a>
       <div class="job__detail" hidden>
         <blockquote class="evidence"></blockquote>
         <p class="job__desc"></p>

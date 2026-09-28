@@ -26,21 +26,20 @@ def render(jobs: list[Job], dashboard_url: str = "") -> tuple[str, str]:
         stip = format_stipend(j)
         rows_txt.append(f"- {j.company}: {j.title}\n  {where} | {elig} | {stip}\n  {j.url}")
         rows_html.append(
-            '<tr><td style="padding:16px 0;border-bottom:1px solid #e5e7eb">'
-            f'<div style="font-size:12px;letter-spacing:.3px;text-transform:uppercase;color:#4a5565">'
+            '<tr><td style="padding:16px 0;border-bottom:1px solid #e3d6c5">'
+            f'<div style="font-size:12px;font-weight:600;text-transform:uppercase;color:#615f5c">'
             f'{html.escape(j.company)}</div>'
-            f'<a href="{html.escape(j.url)}" style="font-size:18px;color:#101828;text-decoration:none">'
+            f'<a href="{html.escape(j.url)}" style="font-size:18px;color:#1d1e1c;text-decoration:none">'
             f'{html.escape(j.title)}</a>'
-            f'<div style="font-size:14px;color:#4a5565;margin-top:4px">{html.escape(where)} · '
+            f'<div style="font-size:14px;color:#615f5c;margin-top:4px">{html.escape(where)} · '
             f'{html.escape(elig)} · {html.escape(stip)}</div></td></tr>'
         )
-    link = f'<p><a href="{html.escape(dashboard_url)}" style="display:inline-block;background:#e42b0c;color:#fff;' \
-           f'padding:12px 24px;border-radius:8px;text-decoration:none;font-size:14px;letter-spacing:.3px;' \
-           f'text-transform:uppercase">Open the tracker</a></p>' if dashboard_url else ""
+    link = f'<p><a href="{html.escape(dashboard_url)}" style="display:inline-block;background:#fa5d00;color:#fff;' \
+           f'padding:12px 24px;border-radius:16px;text-decoration:none;font-size:16px;font-weight:600">Open the tracker</a></p>' if dashboard_url else ""
     body_html = (
-        '<div style="font-family:Inter,Helvetica,Arial,sans-serif;background:#f5f5f5;padding:24px">'
-        '<div style="max-width:640px;margin:auto;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:32px">'
-        f'<h1 style="font-weight:300;font-size:30px;color:#101828;margin:0 0 8px">{len(jobs)} new internship'
+        '<div style="font-family:Inter,Helvetica,Arial,sans-serif;background:#fff8f1;padding:24px">'
+        '<div style="max-width:640px;margin:auto;background:#fff;border:1px solid #e3d6c5;border-radius:20px;padding:32px">'
+        f'<h1 style="font-family:Georgia,serif;font-weight:400;font-size:32px;color:#1d1e1c;margin:0 0 8px">{len(jobs)} new internship'
         f'{"s" if len(jobs) != 1 else ""}</h1><table style="width:100%;border-collapse:collapse">'
         + "".join(rows_html) + f"</table>{link}</div></div>"
     )

@@ -7,7 +7,7 @@ import time
 from ..http import session
 from ..models import Job
 
-VERMILLION = 0xE42B0C
+FLAME = 0xFA5D00
 EMBEDS_PER_MESSAGE = 10
 
 
@@ -29,7 +29,7 @@ def _embed(job: Job) -> dict:
     return {
         "title": f"{job.company}: {job.title}"[:250],
         "url": job.url,
-        "color": VERMILLION,
+        "color": FLAME,
         "fields": fields,
         "footer": {"text": f"{job.source} · {', '.join(job.fields)}"},
         "timestamp": job.first_seen,

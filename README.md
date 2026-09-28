@@ -107,5 +107,6 @@ data/        jobs.json, seen.json, status.json   (written by the Scrape workflow
 tests/       pytest suite
 ```
 
-The design follows the Orderful style from refero.design: black and white, with vermillion used only
-for actions and for marking new roles. All design tokens are in `web/tokens.css`.
+The design follows the Harvest style from refero.design: a warm cream background, white cards, a serif
+headline, and orange used only for actions, the active filter and new roles. All design tokens are in
+`web/tokens.css`. The original fonts are commercial, so Inter and Newsreader stand in for them.
