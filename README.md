@@ -1,4 +1,4 @@
-# Internship Tracker*
+# Internship Tracker
 
 A free tracker for software, CS and AI internships in Pune, Mumbai and remote. Every two hours a
 GitHub Action checks a watchlist of companies' own hiring systems and a few trusted remote job feeds.
