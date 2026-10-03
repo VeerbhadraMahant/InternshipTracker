@@ -78,6 +78,28 @@ class Store:
                 del self.jobs[job_id]
         return new
 
+    def retire(self, active_scopes: set[str], ts: str | None = None) -> int:
+        """Close jobs from sources that were removed from the config, and forget their status.
+
+        Without this, a dropped source's jobs would never be seen as missing (the source is no
+        longer fetched) and would stay open on the dashboard forever.
+        """
+        ts = ts or now_iso()
+        cutoff = (datetime.fromisoformat(ts) - timedelta(days=KEEP_CLOSED_DAYS)).isoformat()
+        closed = 0
+        for job_id, job in list(self.jobs.items()):
+            if not job.scope or job.scope in active_scopes:
+                continue
+            if job.status == "open":
+                job.status, job.last_seen = "closed", ts
+                closed += 1
+            elif (job.last_seen or "") < cutoff:
+                del self.jobs[job_id]
+        scopes = self.status.get("scopes", {})
+        for scope in [s for s in scopes if s not in active_scopes]:
+            del scopes[scope]
+        return closed
+
     def save(self, ts: str | None = None) -> None:
         jobs = sorted(self.jobs.values(), key=lambda j: (j.first_seen or "", j.id), reverse=True)
         _write(self.data_dir / "jobs.json", {"generated_at": ts or now_iso(), "jobs": [j.to_dict() for j in jobs]})

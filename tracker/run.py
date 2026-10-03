@@ -151,6 +151,10 @@ def main(argv: list[str] | None = None) -> int:
     seeding = args.seed or store.is_empty
     new = store.merge(jobs, ok_scopes, ts)
     update_status(store, report, ts)
+    if not args.only:  # a partial run doesn't know the full set of sources
+        retired = store.retire({c.key for c in companies} | set(feeds), ts)
+        if retired:
+            log.info("closed %d roles from sources no longer configured", retired)
     to_alert = [] if seeding else [j for j in new if alerts.matches(j, filters)]
     store.status["last_new"] = len(new)
     store.status["last_alerted"] = len(to_alert)
