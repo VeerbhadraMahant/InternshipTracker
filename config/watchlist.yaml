@@ -83,13 +83,11 @@ companies:
   # The free tier (1,000 credits a month) fits roughly 10 to 12 of these next to discovery.
   # `location` is assumed for listings that don't state one.
   # Pages that list no internships after a few runs should be removed to save credits.
+  # Removed after the first live run (Oct 2026): Meta (internships listed are US/UK only),
+  # Microsoft, Persistent Systems and the Pune Startups board (no internship links found).
   - {name: Google, ats: careerpage, url: "https://www.google.com/about/careers/applications/jobs/results?q=intern&location=India&target_level=INTERN_AND_APPRENTICE", location: "India", tags: [big-tech]}
-  - {name: Meta, ats: careerpage, url: "https://www.metacareers.com/jobs?roles[0]=Internship", tags: [big-tech]}
-  - {name: Microsoft, ats: careerpage, url: "https://jobs.careers.microsoft.com/global/en/search?q=intern&lc=India", location: "India", tags: [big-tech]}
   - {name: Apple, ats: careerpage, url: "https://jobs.apple.com/en-in/search?team=internships-STDNT-INTRN", location: "India", tags: [big-tech]}
-  - {name: Pune Startups (job board), ats: careerpage, url: "https://jobs.punestartups.org/", location: "Pune, India", tags: [pune, startup]}
   - {name: Built In Pune (job board), ats: careerpage, url: "https://builtinpune.in/jobs", location: "Pune, India", tags: [pune, startup]}
-  - {name: Persistent Systems, ats: careerpage, url: "https://www.persistent.com/careers/early-careers-campus-program/", location: "Pune, India", tags: [pune]}
   - {name: KPIT Technologies, ats: careerpage, url: "https://www.kpit.com/careers-graduates/", location: "Pune, India", tags: [pune]}
 
 feeds:
@@ -117,6 +115,9 @@ discovery:
     - "site:myworkdayjobs.com intern Mumbai"
     - "site:jobs.smartrecruiters.com intern Pune OR Mumbai"
     - "site:jobs.ashbyhq.com OR site:jobs.lever.co software intern remote India"
+  # Boards that pass the India check only through non-internship roles; they mostly add US
+  # internships, so discovery drops them and never adds them back.
+  exclude: [greenhouse:waymo, greenhouse:figma, greenhouse:roblox, greenhouse:optiverus]
   # Boards I believe exist but haven't confirmed. Each Discover run checks these against their free
   # APIs (no Firecrawl credits); the ones that answer with postings move to discovered.yaml.
   candidates:

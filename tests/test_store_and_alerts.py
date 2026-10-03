@@ -60,3 +60,16 @@ def test_email_render_escapes_html():
     text, body = alerts.email.render([j], "https://dash")
     assert "<script>" not in body and "&lt;script&gt;" in body
     assert "https://dash" in text
+
+
+def test_retire_closes_jobs_and_forgets_status_of_removed_sources(tmp_path):
+    s = Store(tmp_path)
+    s.merge([mk("1", scope="careerpage:meta"), mk("2", scope="greenhouse:acme")],
+            {"careerpage:meta", "greenhouse:acme"}, "2026-10-01T00:00:00+00:00")
+    s.status["scopes"] = {"careerpage:meta": {"ok": True}, "greenhouse:acme": {"ok": True}}
+    assert s.retire({"greenhouse:acme"}, "2026-10-02T00:00:00+00:00") == 1
+    by_scope = {j.scope: j.status for j in s.jobs.values()}
+    assert by_scope == {"careerpage:meta": "closed", "greenhouse:acme": "open"}
+    assert list(s.status["scopes"]) == ["greenhouse:acme"]
+    s.retire({"greenhouse:acme"}, "2026-10-20T00:00:00+00:00")   # closed > 7 days: dropped
+    assert [j.scope for j in s.jobs.values()] == ["greenhouse:acme"]

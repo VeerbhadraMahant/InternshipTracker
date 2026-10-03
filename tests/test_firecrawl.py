@@ -270,3 +270,17 @@ def test_recheck_drops_boards_without_india_roles(tmp_path, monkeypatch):
         locations=["Pune, India" if c.slug == "keep" else "Austin, TX"])])
     assert discover.recheck(path) == ["US only"]
     assert [e["slug"] for e in yaml.safe_load(path.read_text())["companies"]] == ["keep"]
+
+
+def test_excluded_boards_are_dropped_and_never_re_added(tmp_path, monkeypatch):
+    path = tmp_path / "discovered.yaml"
+    discover._write_discovered(path, [{"name": "Waymo", "ats": "greenhouse", "slug": "waymo"}])
+    monkeypatch.setattr(discover, "load_watchlist", lambda: load_watchlist(discovered=tmp_path / "none.yaml"))
+    monkeypatch.setitem(discover.ATS, "greenhouse", lambda c: [Job(
+        source="greenhouse", company=c.name, title="Intern", url="u", native_id="1", locations=["Pune, India"])])
+    excl = frozenset({"greenhouse:waymo"})
+    assert discover.recheck(path, exclude=excl) == ["Waymo"]
+    monkeypatch.setattr(discover.firecrawl, "client", lambda: (_ for _ in ()).throw(firecrawl.SourceSkipped("x")))
+    added = discover.discover([], 20, 25, path=path, seeds=[{"name": "Waymo", "ats": "greenhouse", "slug": "waymo"}],
+                              exclude=excl)
+    assert added == []

@@ -111,7 +111,10 @@ costs 1 credit, AI extraction adds 4, and a search costs 2 credits per 10 result
    link it finds is turned into a company (Greenhouse, Lever, Ashby, SmartRecruiters or Workday) and
    checked against that board's free API. Boards that answer with at least one posting go into
    `config/discovered.yaml`, and from then on they cost nothing. The `discovery.candidates` list
-   holds boards I believe exist but haven't confirmed; each run checks them the same way, for free. Eight queries of 20 results use
+   holds boards I believe exist but haven't confirmed; each run checks them the same way, for free.
+   Each run also rechecks every discovered board and drops the ones with no roles open to someone
+   in India. Boards listed under `discovery.exclude` are dropped and never added again. When you
+   remove a source from the config, its roles are closed on the next run. Eight queries of 20 results use
    about 32 credits a week. At most 25 companies are added per run. Delete an entry to stop
    tracking it.
 2. **Careers pages with no public API (twice a day).** Entries with `ats: careerpage` are fetched

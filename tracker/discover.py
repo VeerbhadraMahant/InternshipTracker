@@ -144,14 +144,15 @@ def _write_discovered(path: Path, entries: list[dict]) -> None:
     path.write_text(HEADER + "\n" + body, encoding="utf-8")
 
 
-def recheck(path: Path = DISCOVERED_FILE, dry_run: bool = False) -> list[str]:
+def recheck(path: Path = DISCOVERED_FILE, dry_run: bool = False, exclude: frozenset = frozenset()) -> list[str]:
     """Re-validate boards already in discovered.yaml and drop the ones that no longer qualify
-    (board gone, or no roles open to someone in India). Costs no Firecrawl credits."""
+    (board gone, no roles open to someone in India, or listed under discovery.exclude).
+    Costs no Firecrawl credits."""
     entries = _load_discovered(path)
     if not entries:
         return []
     with ThreadPoolExecutor(8) as ex:
-        keep = list(ex.map(lambda e: _validate(Company(**e)), entries))
+        keep = list(ex.map(lambda e: Company(**e).key not in exclude and _validate(Company(**e)), entries))
     dropped = [e["name"] for e, ok in zip(entries, keep) if not ok]
     if dropped and not dry_run:
         _write_discovered(path, [e for e, ok in zip(entries, keep) if ok])
@@ -160,9 +161,10 @@ def recheck(path: Path = DISCOVERED_FILE, dry_run: bool = False) -> list[str]:
 
 
 def discover(queries: list[str], per_query: int, max_new: int, path: Path = DISCOVERED_FILE,
-             dry_run: bool = False, seeds: Optional[list[dict]] = None) -> list[Company]:
+             dry_run: bool = False, seeds: Optional[list[dict]] = None,
+             exclude: frozenset = frozenset()) -> list[Company]:
     companies, _ = load_watchlist()
-    known = {c.key for c in companies}
+    known = {c.key for c in companies} | set(exclude)
 
     # Hand-listed boards whose slug isn't confirmed yet: checking them costs no credits.
     candidates: dict[str, Company] = {}
@@ -224,13 +226,14 @@ def main(argv: Optional[list[str]] = None) -> int:
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     cfg = load_discovery()
-    for name in recheck(dry_run=args.dry_run):
+    exclude = frozenset(cfg.get("exclude") or [])
+    for name in recheck(dry_run=args.dry_run, exclude=exclude):
         print(f"- {name}")
     try:
         queries = [] if args.no_search else (cfg.get("queries") or DEFAULT_QUERIES)
         added = discover(queries, int(cfg.get("results_per_query", 20)),
                          int(cfg.get("max_new_per_run", 25)), dry_run=args.dry_run,
-                         seeds=cfg.get("candidates") or [])
+                         seeds=cfg.get("candidates") or [], exclude=exclude)
     except firecrawl.SourceSkipped as exc:
         log.warning("discovery skipped: %s", exc)
         return 0

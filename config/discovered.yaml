@@ -128,18 +128,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-03'
-- name: Waymo
-  ats: greenhouse
-  slug: waymo
-  tags:
-  - discovered
-  discovered: '2026-10-03'
-- name: Optiverus
-  ats: greenhouse
-  slug: optiverus
-  tags:
-  - discovered
-  discovered: '2026-10-03'
 - name: CloudSEK
   ats: greenhouse
   slug: cloudsek
@@ -149,18 +137,6 @@ companies:
 - name: Instawork
   ats: greenhouse
   slug: instawork
-  tags:
-  - discovered
-  discovered: '2026-10-03'
-- name: Roblox
-  ats: greenhouse
-  slug: roblox
-  tags:
-  - discovered
-  discovered: '2026-10-03'
-- name: Figma
-  ats: greenhouse
-  slug: figma
   tags:
   - discovered
   discovered: '2026-10-03'
