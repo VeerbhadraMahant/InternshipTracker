@@ -1,5 +1,34 @@
 {
  "month": "2026-10",
- "credits_used": 96,
- "pages": {}
+ "credits_used": 114,
+ "pages": {
+  "https://jobs.apple.com/en-in/search?team=internships-STDNT-INTRN": {
+   "hash": "023dcda238130f061084",
+   "changed": "2026-10-03T03:28:50+00:00"
+  },
+  "https://jobs.careers.microsoft.com/global/en/search?q=intern&lc=India": {
+   "hash": "efd281dd7edf9bb52edd",
+   "changed": "2026-10-03T03:29:05+00:00"
+  },
+  "https://jobs.punestartups.org/": {
+   "hash": "48856320fec356577c58",
+   "changed": "2026-10-03T03:28:50+00:00"
+  },
+  "https://www.google.com/about/careers/applications/jobs/results?q=intern&location=India&target_level=INTERN_AND_APPRENTICE": {
+   "hash": "b408574883d101f043eb",
+   "changed": "2026-10-03T03:28:45+00:00"
+  },
+  "https://www.kpit.com/careers-graduates/": {
+   "hash": "1cfb8b86d8c5eef04e3b",
+   "changed": "2026-10-03T03:29:00+00:00"
+  },
+  "https://www.metacareers.com/jobs?roles[0]=Internship": {
+   "hash": "a11d0870665745f60585",
+   "changed": "2026-10-03T03:28:45+00:00"
+  },
+  "https://www.persistent.com/careers/early-careers-campus-program/": {
+   "hash": "0a193a72892d77cc37ad",
+   "changed": "2026-10-03T03:29:04+00:00"
+  }
+ }
 }
