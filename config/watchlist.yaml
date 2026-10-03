@@ -107,7 +107,7 @@ feeds:
 # New boards are checked against their free API and written to config/discovered.yaml.
 discovery:
   results_per_query: 20
-  max_new_per_run: 25
+  max_new_per_run: 50
   queries:
     - "site:jobs.lever.co intern India"
     - "site:job-boards.greenhouse.io intern India"

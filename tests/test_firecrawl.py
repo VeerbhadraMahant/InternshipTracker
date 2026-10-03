@@ -3,6 +3,7 @@ import yaml
 
 from tracker import discover, firecrawl
 from tracker.config import Company, load_watchlist
+from tracker.models import Job
 from tracker.sources import careerpage
 
 
@@ -185,7 +186,8 @@ def test_careerpage_falls_back_to_json_extraction(fc):
     ("https://job-boards.greenhouse.io/acme/jobs/123", "Job Application for SWE Intern at Acme Labs",
      ("greenhouse", "acme", "Acme Labs")),
     ("https://boards.greenhouse.io/embed/job_app?for=zeta&token=1", "", ("greenhouse", "zeta", "Zeta")),
-    ("https://jobs.lever.co/meesho/4f1c", "Meesho - Software Intern", ("lever", "meesho", "Meesho")),
+    ("https://jobs.lever.co/aleph/4f1c", "Finance Intern - Aleph - Lever", ("lever", "aleph", "Aleph")),
+    ("https://jobs.lever.co/fampay/1", "Copy Intern - FamPay", ("lever", "fampay", "FamPay")),
     ("https://jobs.ashbyhq.com/sarvam/abc", "AI Intern @ Sarvam AI", ("ashby", "sarvam", "Sarvam AI")),
     ("https://jobs.smartrecruiters.com/BoschGroup/7441", "", ("smartrecruiters", "BoschGroup", "Boschgroup")),
     ("https://citi.wd5.myworkdayjobs.com/en-US/2/job/Pune-India/Intern_123", "", ("workday", "citi", "Citi")),
@@ -205,13 +207,17 @@ def test_parse_workday_keeps_host_and_site():
 
 def test_discover_adds_only_new_validated_boards(fc, tmp_path, monkeypatch):
     out = tmp_path / "discovered.yaml"
+    monkeypatch.setattr(discover, "load_watchlist", lambda: load_watchlist(discovered=tmp_path / "none.yaml"))
     fc.fake.responses = [{"success": True, "creditsUsed": 4, "data": {"web": [
         {"url": "https://jobs.lever.co/meesho/1", "title": "Meesho - Intern"},
         {"url": "https://jobs.lever.co/cred/2", "title": "CRED - Intern"},       # already in watchlist.yaml
         {"url": "https://jobs.lever.co/deadboard/3", "title": "Dead - Intern"},  # validation fails
     ]}}]
-    monkeypatch.setitem(discover.ATS, "lever",
-                        lambda c: (_ for _ in ()).throw(RuntimeError("404")) if c.slug == "deadboard" else [object()])
+    def fake_lever(c):
+        if c.slug == "deadboard":
+            raise RuntimeError("404")
+        return [Job(source="lever", company=c.name, title="Intern", url="u", native_id="1", locations=["Bengaluru"])]
+    monkeypatch.setitem(discover.ATS, "lever", fake_lever)
     added = discover.discover(["q"], 20, 25, path=out)
     assert [c.key for c in added] == ["lever:meesho"]
     saved = yaml.safe_load(out.read_text())["companies"]
@@ -230,12 +236,17 @@ def test_load_watchlist_merges_discovered_without_duplicates(tmp_path):
 
 def test_discover_validates_candidates_without_firecrawl(tmp_path, monkeypatch):
     out = tmp_path / "discovered.yaml"
+    monkeypatch.setattr(discover, "load_watchlist", lambda: load_watchlist(discovered=tmp_path / "none.yaml"))
     monkeypatch.setattr(discover.firecrawl, "client",
                         lambda: (_ for _ in ()).throw(firecrawl.SourceSkipped("no key")))
-    monkeypatch.setitem(discover.ATS, "greenhouse", lambda c: [object()] if c.slug == "pubmatic" else [])
+    def fake_gh(c):
+        loc = {"pubmatic": "Pune, India", "usonly": "Austin, TX"}.get(c.slug)
+        return [Job(source="greenhouse", company=c.name, title="Intern", url="u", native_id="1", locations=[loc])] if loc else []
+    monkeypatch.setitem(discover.ATS, "greenhouse", fake_gh)
     seeds = [
         {"name": "PubMatic", "ats": "greenhouse", "slug": "pubmatic", "tags": ["pune"]},
         {"name": "Guess", "ats": "greenhouse", "slug": "wrongslug"},       # answers with nothing
+        {"name": "US only", "ats": "greenhouse", "slug": "usonly"},        # no India or remote roles
         {"name": "Druva", "ats": "greenhouse", "slug": "druva"},            # already in watchlist.yaml
     ]
     added = discover.discover(["q"], 20, 25, path=out, seeds=seeds)

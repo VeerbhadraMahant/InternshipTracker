@@ -21,6 +21,7 @@ from urllib.parse import parse_qs, urlparse
 import yaml
 
 from . import firecrawl
+from .classify.location import classify_location
 from .config import CONFIG_DIR, Company, load_discovery, load_watchlist
 from .sources import ATS
 
@@ -59,7 +60,7 @@ def _name_from_title(ats: str, title: str) -> Optional[str]:
     t = (title or "").strip()
     patterns = {
         "greenhouse": r"\bat\s+(.+?)\s*$",             # "Job Application for SWE Intern at Acme"
-        "lever": r"^(.+?)\s+-\s+",                     # "Acme - Software Engineer Intern"
+        "lever": r"\s-\s([^-]+?)(?:\s-\sLever)?\s*$",     # "Finance Intern - Aleph - Lever"
         "ashby": r"@\s*(.+?)\s*$",                     # "Software Intern @ Acme"
         "smartrecruiters": r"^(.+?)\s+[-|]\s+",
     }
@@ -107,11 +108,17 @@ def parse_ats_url(url: str, title: str = "") -> Optional[Company]:
 
 
 def _validate(company: Company) -> bool:
+    """Keep boards that answer and have at least one role in India or open to remote work.
+    Search results include plenty of US-only boards; those would only add roles abroad."""
     try:
-        return len(ATS[company.ats](company)) > 0
+        jobs = ATS[company.ats](company)
     except Exception as exc:  # 404, renamed board, rate limit: just don't add it
         log.info("  reject %-40s %s", company.key, str(exc)[:120])
         return False
+    relevant = sum(1 for j in jobs if {"india", "remote"} & set(classify_location(j)))
+    if not relevant:
+        log.info("  reject %-40s %d postings, none in India or remote", company.key, len(jobs))
+    return relevant > 0
 
 
 def _load_discovered(path: Path) -> list[dict]:
