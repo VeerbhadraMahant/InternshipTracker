@@ -257,3 +257,16 @@ def test_discover_validates_candidates_without_firecrawl(tmp_path, monkeypatch):
     added = discover.discover(["q"], 20, 25, path=out, seeds=seeds)
     assert [c.key for c in added] == ["greenhouse:pubmatic"]
     assert yaml.safe_load(out.read_text())["companies"][0]["tags"] == ["pune"]
+
+
+def test_recheck_drops_boards_without_india_roles(tmp_path, monkeypatch):
+    path = tmp_path / "discovered.yaml"
+    discover._write_discovered(path, [
+        {"name": "Keep", "ats": "greenhouse", "slug": "keep"},
+        {"name": "US only", "ats": "greenhouse", "slug": "usonly"},
+    ])
+    monkeypatch.setitem(discover.ATS, "greenhouse", lambda c: [Job(
+        source="greenhouse", company=c.name, title="Intern", url="u", native_id="1",
+        locations=["Pune, India" if c.slug == "keep" else "Austin, TX"])])
+    assert discover.recheck(path) == ["US only"]
+    assert [e["slug"] for e in yaml.safe_load(path.read_text())["companies"]] == ["keep"]

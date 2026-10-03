@@ -6,6 +6,11 @@ on:
   schedule:
     - cron: "31 3 * * 1"   # Mondays 03:31 UTC (09:01 IST)
   workflow_dispatch:
+    inputs:
+      no_search:
+        description: "Skip Firecrawl searches (no credits): only recheck existing boards and candidates"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -32,7 +37,7 @@ jobs:
         env:
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
           FIRECRAWL_MONTHLY_BUDGET: ${{ vars.FIRECRAWL_MONTHLY_BUDGET || '900' }}
-        run: python -m tracker.discover
+        run: python -m tracker.discover ${{ inputs.no_search && '--no-search' || '' }}
 
       - name: Commit discovered companies
         run: |

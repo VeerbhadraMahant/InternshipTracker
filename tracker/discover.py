@@ -144,6 +144,21 @@ def _write_discovered(path: Path, entries: list[dict]) -> None:
     path.write_text(HEADER + "\n" + body, encoding="utf-8")
 
 
+def recheck(path: Path = DISCOVERED_FILE, dry_run: bool = False) -> list[str]:
+    """Re-validate boards already in discovered.yaml and drop the ones that no longer qualify
+    (board gone, or no roles open to someone in India). Costs no Firecrawl credits."""
+    entries = _load_discovered(path)
+    if not entries:
+        return []
+    with ThreadPoolExecutor(8) as ex:
+        keep = list(ex.map(lambda e: _validate(Company(**e)), entries))
+    dropped = [e["name"] for e, ok in zip(entries, keep) if not ok]
+    if dropped and not dry_run:
+        _write_discovered(path, [e for e, ok in zip(entries, keep) if ok])
+    log.info("rechecked %d discovered boards, dropped %d", len(entries), len(dropped))
+    return dropped
+
+
 def discover(queries: list[str], per_query: int, max_new: int, path: Path = DISCOVERED_FILE,
              dry_run: bool = False, seeds: Optional[list[dict]] = None) -> list[Company]:
     companies, _ = load_watchlist()
@@ -204,11 +219,16 @@ def discover(queries: list[str], per_query: int, max_new: int, path: Path = DISC
 def main(argv: Optional[list[str]] = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dry-run", action="store_true", help="search and validate, but don't write discovered.yaml")
+    ap.add_argument("--no-search", action="store_true", help="skip Firecrawl searches (no credits); still "
+                    "checks candidates from watchlist.yaml")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     cfg = load_discovery()
+    for name in recheck(dry_run=args.dry_run):
+        print(f"- {name}")
     try:
-        added = discover(cfg.get("queries") or DEFAULT_QUERIES, int(cfg.get("results_per_query", 20)),
+        queries = [] if args.no_search else (cfg.get("queries") or DEFAULT_QUERIES)
+        added = discover(queries, int(cfg.get("results_per_query", 20)),
                          int(cfg.get("max_new_per_run", 25)), dry_run=args.dry_run,
                          seeds=cfg.get("candidates") or [])
     except firecrawl.SourceSkipped as exc:

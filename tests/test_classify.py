@@ -89,6 +89,10 @@ def test_location(locations, remote, expected):
     (["Remote"], "Applicants must be located in India.", "india-ok", "India"),
     (["Remote"], "We work async and use GMT time for meeting invites.", "unknown", ""),
     (["Remote"], "Help us reach users in the US and Europe.", "unknown", ""),
+    (["Remote"], "We are a global company building self-driving cars.", "unknown", ""),
+    (["Remote"], "Our global team works globally across time zones.", "unknown", ""),
+    (["San Francisco, CA; Remote"], "", "restricted", "US"),
+    (["Remote"], "We hire globally; this role is fully remote.", "open-worldwide", "Worldwide"),
     (["Anywhere"], "Must be a US citizen.", "needs-work-auth", ""),
 ])
 def test_eligibility(locations, description, label, detail_contains):

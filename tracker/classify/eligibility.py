@@ -32,6 +32,16 @@ _WORLDWIDE = re.compile(
     r"\b(worldwide|anywhere( in the world)?|global(ly)?( remote)?|any (country|location|timezone)|"
     r"all (countries|time ?zones)|work from anywhere|fully distributed|location[- ]independent)\b", re.I)
 _REGION_IN_LOCATION = re.compile(rf"(?:\b(?:{_REGION_ABBR})\b)|(?i:\b(?:{_REGION_WORDS})\b)")
+# Description wording that really means "open everywhere". Plain "global" isn't enough:
+# "a global company" or "our global team" says nothing about who can apply.
+_WORLDWIDE_TEXT = re.compile(
+    r"\b(worldwide|anywhere in the world|work from anywhere|from anywhere|any country|all countries|"
+    r"global(ly)?[- ]remote|remote[- ]global(ly)?|hir(e|es|ing) (globally|worldwide|across the world)|"
+    r"location[- ]independent|regardless of (your )?location)\b", re.I)
+# "San Francisco, CA" / "Austin, TX; Remote": a US city means the remote option is US-bound.
+_US_STATE = re.compile(
+    r",\s*(AL|AK|AZ|AR|CA|CO|CT|DC|DE|FL|GA|HI|IA|ID|IL|IN|KS|KY|LA|MA|MD|ME|MI|MN|MO|MS|MT|NC|ND|NE|NH|NJ|NM|NV|"
+    r"NY|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VA|VT|WA|WI|WV|WY)\b")
 
 # Known regions only; the looser form also accepts any capitalised place name.
 _WHERE_KNOWN = rf"(?P<where>(?:the )?(?:(?:{_REGION_ABBR})\b|(?i:{_REGION_WORDS}|india)\b))"
@@ -140,6 +150,8 @@ def classify_eligibility(job: Job, location_tags: list[str]) -> Verdict:
     region = _REGION_IN_LOCATION.search(loc_text)
     if region:
         return Verdict("restricted", f"{region.group(0)} only", loc_text)
+    if _US_STATE.search(loc_text):
+        return Verdict("restricted", "US only", loc_text)
     location_says_worldwide = bool(_WORLDWIDE.search(loc_text))
 
     # Description can override a "Worldwide" label: feeds often mislabel US-only roles.
@@ -149,7 +161,7 @@ def classify_eligibility(job: Job, location_tags: list[str]) -> Verdict:
         return restriction
     if location_says_worldwide:
         return Verdict("open-worldwide", "Worldwide", loc_text)
-    m = _WORLDWIDE.search(text)
+    m = _WORLDWIDE_TEXT.search(text)
     if m:
         return Verdict("open-worldwide", "Worldwide", _snippet(text, m))
     return Verdict("unknown", "No location restriction stated", "")
