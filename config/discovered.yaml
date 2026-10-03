@@ -92,12 +92,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-03'
-- name: Shopback 2
-  ats: lever
-  slug: shopback-2
-  tags:
-  - discovered
-  discovered: '2026-10-03'
 - name: Merklescience
   ats: lever
   slug: merklescience
@@ -131,12 +125,6 @@ companies:
 - name: Paytm
   ats: lever
   slug: paytm
-  tags:
-  - discovered
-  discovered: '2026-10-03'
-- name: Editorialist
-  ats: lever
-  slug: editorialist
   tags:
   - discovered
   discovered: '2026-10-03'
