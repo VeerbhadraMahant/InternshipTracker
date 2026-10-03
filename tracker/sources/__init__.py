@@ -1,4 +1,4 @@
-from . import ashby, greenhouse, hn, lever, remoteok, remotive, smartrecruiters, workday, wwr
+from . import ashby, careerpage, greenhouse, hn, lever, remoteok, remotive, smartrecruiters, workday, wwr
 
 # Company ATS fetchers: fetch(Company) -> list[Job]
 ATS = {
@@ -7,6 +7,7 @@ ATS = {
     "ashby": ashby.fetch,
     "smartrecruiters": smartrecruiters.fetch,
     "workday": workday.fetch,
+    "careerpage": careerpage.fetch,   # via Firecrawl; costs credits
 }
 
 # Aggregate feeds: fetch(feed_config: dict) -> list[Job]

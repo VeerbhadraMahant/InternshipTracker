@@ -214,14 +214,16 @@
       && j.fields.some((f) => f !== "other")).length;
     const pill = $("freshness");
     pill.textContent = generatedAt ? `Updated ${ago(generatedAt)}` : "No data yet";
-    pill.classList.toggle("is-live", generatedAt && Date.now() - new Date(generatedAt) < 3 * 3600e3);
+    pill.classList.toggle("is-live", generatedAt && Date.now() - new Date(generatedAt) < 13 * 3600e3);
   }
 
   function renderHealth(status) {
     const scopes = Object.entries(status.scopes || {}).sort(([a, x], [b, y]) => (x.ok === y.ok ? a.localeCompare(b) : x.ok ? 1 : -1));
     const failing = scopes.filter(([, s]) => !s.ok).length;
+    const fc = status.firecrawl;
+    const credits = fc ? ` · Firecrawl ${fc.credits_used}/${fc.budget} credits this month` : "";
     $("health-title").textContent = scopes.length
-      ? `${scopes.length - failing} of ${scopes.length} sources healthy${failing ? ` · ${failing} failing` : ""}`
+      ? `${scopes.length - failing} of ${scopes.length} sources healthy${failing ? ` · ${failing} failing` : ""}${credits}`
       : "No runs recorded yet";
     const body = $("health-body");
     body.replaceChildren(...scopes.map(([name, s]) => {
@@ -231,7 +233,14 @@
         const td = document.createElement("td");
         if (i === 1) {
           td.className = s.ok ? "ok" : "fail";
-          td.textContent = s.ok ? "ok" : `failing ×${s.consecutive_failures || 1}`;
+          td.textContent = !s.ok ? `failing ×${s.consecutive_failures || 1}`
+            : s.skipped ? (s.skipped === "unchanged" ? "unchanged" : "skipped") : "ok";
+          if (s.skipped && s.skipped !== "unchanged") {
+            const why = document.createElement("span");
+            why.className = "err";
+            why.textContent = s.skipped;
+            td.append(why);
+          }
           if (!s.ok && s.error) {
             const err = document.createElement("span");
             err.className = "err";

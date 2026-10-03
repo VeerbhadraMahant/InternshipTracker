@@ -60,3 +60,28 @@ def test_dedupe_prefers_company_ats():
     ats = Job(source="greenhouse", company="acme ", title="ml intern", url="b", native_id="g")
     assert [j.source for j in run._dedupe([feed, ats])] == ["greenhouse"]
     assert [j.source for j in run._dedupe([ats, feed])] == ["greenhouse"]
+
+
+def test_skipped_source_keeps_its_jobs_and_is_not_a_failure(tmp_path, monkeypatch):
+    from tracker import firecrawl
+    state = {"skip": False}
+
+    def page(company):
+        if state["skip"]:
+            raise firecrawl.SourceSkipped("unchanged")
+        return [_job("p1", title="Software Intern")]
+
+    monkeypatch.setattr(run, "ATS", {"careerpage": page})
+    monkeypatch.setattr(run, "FEEDS", {})
+    monkeypatch.setattr(run, "load_watchlist", lambda: ([Company("Acme", "careerpage", url="https://acme.in")], {}))
+    monkeypatch.setattr(run, "load_filters", lambda: Filters())
+    monkeypatch.setattr(run, "Store", lambda: Store(tmp_path))
+    assert run.main([]) == 0
+    state["skip"] = True
+    for _ in range(3):  # would close the job after two misses if skips counted as fetches
+        assert run.main([]) == 0
+    jobs = json.loads((tmp_path / "jobs.json").read_text())["jobs"]
+    status = json.loads((tmp_path / "status.json").read_text())
+    assert [j["status"] for j in jobs] == ["open"]
+    assert status["scopes"]["careerpage:acme"]["skipped"] == "unchanged"
+    assert status["sources_failed"] == 0 and status["sources_skipped"] == 1

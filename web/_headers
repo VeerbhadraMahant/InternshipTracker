@@ -1,5 +1,5 @@
 # Response headers for Cloudflare static assets.
-# The job data changes every two hours, so browsers must re-check it on each load.
+# The job data changes twice a day, so browsers must re-check it on each load.
 /data/*
   Cache-Control: public, max-age=0, must-revalidate
 

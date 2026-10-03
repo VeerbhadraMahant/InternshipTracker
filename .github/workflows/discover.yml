@@ -1,0 +1,50 @@
+name: Discover
+
+# Weekly Firecrawl search for more companies to track. New boards are checked against their
+# free API and committed to config/discovered.yaml; the next Scrape run picks them up.
+on:
+  schedule:
+    - cron: "31 3 * * 1"   # Mondays 03:31 UTC (09:01 IST)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scrape   # never run alongside Scrape; both commit to main
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Search and validate new job boards
+        env:
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          FIRECRAWL_MONTHLY_BUDGET: ${{ vars.FIRECRAWL_MONTHLY_BUDGET || '900' }}
+        run: python -m tracker.discover
+
+      - name: Commit discovered companies
+        run: |
+          git config user.name "internship-tracker[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for f in config/discovered.yaml data/firecrawl_state.json; do [ -e "$f" ] && git add "$f"; done
+          if git diff --cached --quiet; then
+            echo "Nothing new"; exit 0
+          fi
+          git commit -m "discover: add companies $(date -u +%Y-%m-%d)"
+          for i in 1 2 3 4; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push && exit 0
+            sleep $((i * 5))
+          done
+          exit 1

@@ -50,6 +50,13 @@ companies:
   - {name: Linear, ats: ashby, slug: linear, tags: [remote-first]}
   - {name: Ramp, ats: ashby, slug: ramp, tags: []}
 
+  # --- Career pages with no public API, read through Firecrawl ---
+  # Each entry costs about 1 Firecrawl credit per run (2 runs a day, so ~60 credits a month),
+  # plus 4 more on runs where the page changed and has no plain internship links.
+  # The free tier (1,000 credits a month) fits roughly 10 to 12 of these next to discovery.
+  # `location` is assumed for listings that don't state one.
+  # - {name: Example Co, ats: careerpage, url: "https://careers.example.com/jobs", location: "Pune, India", tags: [pune]}
+
 feeds:
   remoteok: {}
   remotive:
@@ -58,4 +65,20 @@ feeds:
   weworkremotely:
     categories: [remote-programming-jobs, remote-full-stack-programming-jobs, remote-back-end-programming-jobs]
   hn-whoishiring:
-    min_interval_hours: 12       # one thread per month; no need to hammer it
+    min_interval_hours: 24       # one thread per month; no need to hammer it
+
+# Weekly Firecrawl search for more companies (Discover workflow, python -m tracker.discover).
+# Cost: 2 credits per 10 results, so 8 queries x 20 results = 32 credits a week.
+# New boards are checked against their free API and written to config/discovered.yaml.
+discovery:
+  results_per_query: 20
+  max_new_per_run: 25
+  queries:
+    - "site:jobs.lever.co intern India"
+    - "site:job-boards.greenhouse.io intern India"
+    - "site:boards.greenhouse.io intern Pune OR Mumbai"
+    - "site:jobs.ashbyhq.com intern India"
+    - "site:myworkdayjobs.com intern Pune"
+    - "site:myworkdayjobs.com intern Mumbai"
+    - "site:jobs.smartrecruiters.com intern Pune OR Mumbai"
+    - "site:jobs.ashbyhq.com OR site:jobs.lever.co software intern remote India"

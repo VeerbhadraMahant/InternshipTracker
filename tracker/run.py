@@ -9,7 +9,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 from typing import Callable
 
-from . import alerts
+from . import alerts, firecrawl
 from .classify import classify
 from .config import Company, load_filters, load_watchlist
 from .models import Job
@@ -28,7 +28,7 @@ def _task_list(companies: list[Company], feeds: dict, store: Store, only: str | 
         if not fetcher:
             log.warning("unknown ats %r for %s", c.ats, c.name)
             continue
-        tasks.append((f"{c.ats}:{c.slug}", lambda c=c, f=fetcher: f(c)))
+        tasks.append((c.key, lambda c=c, f=fetcher: f(c)))
     now = datetime.now(timezone.utc)
     for name, cfg in feeds.items():
         cfg = cfg or {}
@@ -54,6 +54,10 @@ def fetch_all(tasks) -> tuple[list[Job], dict[str, dict]]:
             scope = futures[fut]
             try:
                 batch = fut.result()
+            except firecrawl.SourceSkipped as exc:
+                log.info("skip %-32s %s", scope, exc)
+                report[scope] = {"ok": False, "skipped": str(exc)[:200]}
+                continue
             except Exception as exc:
                 log.warning("FAIL %-32s %s", scope, str(exc)[:200])
                 report[scope] = {"ok": False, "error": str(exc)[:300]}
@@ -82,6 +86,12 @@ def update_status(store: Store, report: dict[str, dict], ts: str) -> None:
     scopes = store.status.setdefault("scopes", {})
     for scope, r in report.items():
         entry = scopes.setdefault(scope, {})
+        if "skipped" in r:
+            # Did no work on purpose (unchanged page, no key, budget). Not a failure.
+            entry.update({"last_run": ts, "skipped": r["skipped"], "error": None})
+            entry.setdefault("ok", True)
+            continue
+        entry.pop("skipped", None)
         entry.update({"last_run": ts, "ok": r["ok"]})
         if r["ok"]:
             entry.update({"last_ok": ts, "fetched": r["fetched"], "internships": r["internships"], "error": None})
@@ -91,7 +101,11 @@ def update_status(store: Store, report: dict[str, dict], ts: str) -> None:
             entry["consecutive_failures"] = entry.get("consecutive_failures", 0) + 1
     store.status["last_run"] = ts
     store.status["sources_ok"] = sum(1 for r in report.values() if r["ok"])
-    store.status["sources_failed"] = sum(1 for r in report.values() if not r["ok"])
+    store.status["sources_failed"] = sum(1 for r in report.values() if not r["ok"] and "skipped" not in r)
+    store.status["sources_skipped"] = sum(1 for r in report.values() if "skipped" in r)
+    usage = firecrawl.summary()
+    if usage:
+        store.status["firecrawl"] = usage
 
 
 def _sample_job() -> Job:
@@ -141,12 +155,14 @@ def main(argv: list[str] | None = None) -> int:
     store.status["last_new"] = len(new)
     store.status["last_alerted"] = len(to_alert)
     store.save(ts)
+    firecrawl.save_state()
 
     log.info("%d new (%d match filters)%s", len(new), len(to_alert), " — seeding, no alerts" if seeding else "")
     if to_alert:
         log.info("alerts: %s", alerts.send_all(to_alert, dashboard))
     # Fail the workflow only if every source failed (network outage, broken config).
-    return 1 if report and not ok_scopes else 0
+    failed = [s for s, r in report.items() if not r["ok"] and "skipped" not in r]
+    return 1 if failed and not ok_scopes else 0
 
 
 if __name__ == "__main__":
