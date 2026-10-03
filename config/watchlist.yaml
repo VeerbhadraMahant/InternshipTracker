@@ -21,6 +21,22 @@ companies:
   - {name: Deutsche Bank, ats: workday, host: db.wd3.myworkdayjobs.com, slug: db, site: DBWebsite, tags: [pune, mumbai]}
   - {name: Salesforce, ats: workday, host: salesforce.wd12.myworkdayjobs.com, slug: salesforce, site: External_Career_Site, tags: [mumbai]}
   - {name: Adobe, ats: workday, host: adobe.wd5.myworkdayjobs.com, slug: adobe, site: external_experienced, tags: [india]}
+  # Seen with live Pune / Mumbai / India intern postings (Firecrawl search, Oct 2026)
+  - {name: Intel, ats: workday, host: intel.wd1.myworkdayjobs.com, slug: intel, site: External, tags: [big-tech]}
+  - {name: Maersk, ats: workday, host: maersk.wd3.myworkdayjobs.com, slug: maersk, site: Maersk_Manual, tags: [pune]}
+  - {name: HPE, ats: workday, host: hpe.wd5.myworkdayjobs.com, slug: hpe, site: ACJobSite, tags: [pune]}
+  - {name: Edwards Lifesciences, ats: workday, host: edwards.wd5.myworkdayjobs.com, slug: edwards, site: edwardsCareers, tags: [pune]}
+  - {name: Medline, ats: workday, host: medline.wd5.myworkdayjobs.com, slug: medline, site: Medline, tags: [pune]}
+  - {name: Infobip, ats: workday, host: infobip.wd3.myworkdayjobs.com, slug: infobip, site: InfobipCareers, tags: [mumbai]}
+  - {name: Baker Hughes, ats: workday, host: bakerhughes.wd5.myworkdayjobs.com, slug: bakerhughes, site: BakerHughes, tags: [india]}
+  - {name: Northern Trust, ats: workday, host: ntrs.wd1.myworkdayjobs.com, slug: ntrs, site: northerntrust, tags: [pune]}
+  - {name: PTC, ats: workday, host: ptc.wd1.myworkdayjobs.com, slug: ptc, site: PTC, tags: [pune]}
+  - {name: Zebra Technologies, ats: workday, host: zebra.wd501.myworkdayjobs.com, slug: zebra, site: Zebra_careers, tags: [pune]}
+  - {name: Veradigm, ats: workday, host: veradigm.wd12.myworkdayjobs.com, slug: veradigm, site: VR, tags: [pune]}
+  - {name: Pitney Bowes, ats: workday, host: pitneybowes.wd1.myworkdayjobs.com, slug: pitneybowes, site: PBCareers, tags: [india]}
+
+  # --- Amazon (public JSON search; only India roles are kept) ---
+  - {name: Amazon, ats: amazon, slug: amazon, tags: [big-tech]}
 
   # --- SmartRecruiters ---
   - {name: Bosch, ats: smartrecruiters, slug: BoschGroup, tags: [pune]}
@@ -37,11 +53,18 @@ companies:
   - {name: MongoDB, ats: greenhouse, slug: mongodb, tags: []}
   - {name: Grafana Labs, ats: greenhouse, slug: grafanalabs, tags: [remote-first]}
   - {name: Coinbase, ats: greenhouse, slug: coinbase, tags: [remote-first]}
+  - {name: Forma.ai, ats: greenhouse, slug: formaaiinc3, tags: [pune, startup]}
+  - {name: TraceLink, ats: greenhouse, slug: tracelinkinc, tags: [pune]}
+  - {name: Prodigal, ats: greenhouse, slug: prodigal, tags: [mumbai, startup, ai]}
+  - {name: Rubrik, ats: greenhouse, slug: rubrik, tags: [india]}
 
   # --- Lever ---
   - {name: CRED, ats: lever, slug: cred, tags: [india]}
   - {name: Zeta, ats: lever, slug: zeta, tags: [india]}
   - {name: Palantir, ats: lever, slug: palantir, tags: []}
+  - {name: Mactores, ats: lever, slug: mactores, tags: [mumbai, startup]}
+  - {name: Dun & Bradstreet, ats: lever, slug: dnb, tags: [mumbai]}
+  - {name: Drivetrain, ats: lever, slug: drivetrain, tags: [india, startup]}
 
   # --- Ashby ---
   - {name: OpenAI, ats: ashby, slug: openai, tags: [ai]}
@@ -49,13 +72,25 @@ companies:
   - {name: PostHog, ats: ashby, slug: posthog, tags: [remote-first]}
   - {name: Linear, ats: ashby, slug: linear, tags: [remote-first]}
   - {name: Ramp, ats: ashby, slug: ramp, tags: []}
+  - {name: Litmus, ats: ashby, slug: litmus, tags: [pune, startup]}
+  - {name: Hyde, ats: ashby, slug: hyde, tags: [mumbai, startup, ai]}
+  - {name: Interview Kickstart, ats: ashby, slug: interview-kickstart, tags: [remote, startup]}
+  - {name: Espa Labs, ats: ashby, slug: espa, tags: [startup, ai]}
 
   # --- Career pages with no public API, read through Firecrawl ---
   # Each entry costs about 1 Firecrawl credit per run (2 runs a day, so ~60 credits a month),
   # plus 4 more on runs where the page changed and has no plain internship links.
   # The free tier (1,000 credits a month) fits roughly 10 to 12 of these next to discovery.
   # `location` is assumed for listings that don't state one.
-  # - {name: Example Co, ats: careerpage, url: "https://careers.example.com/jobs", location: "Pune, India", tags: [pune]}
+  # Pages that list no internships after a few runs should be removed to save credits.
+  - {name: Google, ats: careerpage, url: "https://www.google.com/about/careers/applications/jobs/results?q=intern&location=India&target_level=INTERN_AND_APPRENTICE", location: "India", tags: [big-tech]}
+  - {name: Meta, ats: careerpage, url: "https://www.metacareers.com/jobs?roles[0]=Internship", tags: [big-tech]}
+  - {name: Microsoft, ats: careerpage, url: "https://jobs.careers.microsoft.com/global/en/search?q=intern&lc=India", location: "India", tags: [big-tech]}
+  - {name: Apple, ats: careerpage, url: "https://jobs.apple.com/en-in/search?team=internships-STDNT-INTRN", location: "India", tags: [big-tech]}
+  - {name: Pune Startups (job board), ats: careerpage, url: "https://jobs.punestartups.org/", location: "Pune, India", tags: [pune, startup]}
+  - {name: Built In Pune (job board), ats: careerpage, url: "https://builtinpune.in/jobs", location: "Pune, India", tags: [pune, startup]}
+  - {name: Persistent Systems, ats: careerpage, url: "https://www.persistent.com/careers/early-careers-campus-program/", location: "Pune, India", tags: [pune]}
+  - {name: KPIT Technologies, ats: careerpage, url: "https://www.kpit.com/careers-graduates/", location: "Pune, India", tags: [pune]}
 
 feeds:
   remoteok: {}
@@ -82,3 +117,39 @@ discovery:
     - "site:myworkdayjobs.com intern Mumbai"
     - "site:jobs.smartrecruiters.com intern Pune OR Mumbai"
     - "site:jobs.ashbyhq.com OR site:jobs.lever.co software intern remote India"
+  # Boards I believe exist but haven't confirmed. Each Discover run checks these against their free
+  # APIs (no Firecrawl credits); the ones that answer with postings move to discovered.yaml.
+  candidates:
+    # Indian startups and product companies
+    - {name: upGrad, ats: lever, slug: upgrad, tags: [mumbai, startup]}
+    - {name: Meesho, ats: lever, slug: meesho, tags: [india, startup]}
+    - {name: Zepto, ats: lever, slug: zeptonow, tags: [mumbai, startup]}
+    - {name: Razorpay, ats: lever, slug: razorpay, tags: [india, startup]}
+    - {name: Mindtickle, ats: lever, slug: mindtickle, tags: [pune, startup]}
+    - {name: Icertis, ats: lever, slug: icertis, tags: [pune]}
+    - {name: Turtlemint, ats: lever, slug: turtlemint, tags: [mumbai, startup]}
+    - {name: Jupiter, ats: lever, slug: jupiter, tags: [mumbai, startup]}
+    - {name: smallcase, ats: lever, slug: smallcase, tags: [india, startup]}
+    - {name: CARS24, ats: lever, slug: cars24, tags: [india, startup]}
+    - {name: ACKO, ats: lever, slug: acko, tags: [mumbai, startup]}
+    - {name: Atlassian, ats: lever, slug: atlassian, tags: [big-tech, remote]}
+    - {name: Dream Sports, ats: greenhouse, slug: dreamsports, tags: [mumbai, startup]}
+    - {name: PubMatic, ats: greenhouse, slug: pubmatic, tags: [pune]}
+    - {name: Helpshift, ats: greenhouse, slug: helpshift, tags: [pune, startup]}
+    - {name: BrowserStack, ats: greenhouse, slug: browserstack, tags: [mumbai]}
+    - {name: Sprinklr, ats: greenhouse, slug: sprinklr, tags: [india]}
+    - {name: InMobi, ats: greenhouse, slug: inmobi, tags: [india]}
+    - {name: Gupshup, ats: greenhouse, slug: gupshup, tags: [mumbai, startup]}
+    - {name: Snowflake, ats: greenhouse, slug: snowflake, tags: [big-tech]}
+    - {name: Sarvam AI, ats: ashby, slug: sarvam, tags: [india, startup, ai]}
+    - {name: Plivo, ats: ashby, slug: plivo, tags: [india, startup]}
+    - {name: Composio, ats: ashby, slug: composio, tags: [india, startup, ai]}
+    # Big employers with Pune / Mumbai technology centres (Workday guesses)
+    - {name: Citi, ats: workday, host: citi.wd5.myworkdayjobs.com, slug: citi, site: "2", tags: [pune, mumbai]}
+    - {name: Walmart Global Tech, ats: workday, host: walmart.wd5.myworkdayjobs.com, slug: walmart, site: WalmartExternal, tags: [big-tech]}
+    - {name: Qualcomm, ats: workday, host: qualcomm.wd5.myworkdayjobs.com, slug: qualcomm, site: External, tags: [big-tech]}
+    - {name: Dell Technologies, ats: workday, host: dell.wd1.myworkdayjobs.com, slug: dell, site: External, tags: [big-tech, pune]}
+    - {name: PayPal, ats: workday, host: paypal.wd1.myworkdayjobs.com, slug: paypal, site: jobs, tags: [big-tech]}
+    - {name: BNY, ats: workday, host: bny.wd1.myworkdayjobs.com, slug: bny, site: BNY_Careers, tags: [pune]}
+    - {name: Morgan Stanley, ats: workday, host: ms.wd5.myworkdayjobs.com, slug: ms, site: External, tags: [mumbai]}
+    - {name: Accenture, ats: workday, host: accenture.wd103.myworkdayjobs.com, slug: accenture, site: AccentureCareers, tags: [pune, mumbai]}

@@ -6,6 +6,9 @@ limit without notice, so failures are isolated per company.
 """
 from __future__ import annotations
 
+import re
+
+from ..classify.location import INDIA, MUMBAI, PUNE, REMOTE
 from ..config import Company
 from ..http import get_json, post_json
 from ..models import Job, strip_html
@@ -51,6 +54,14 @@ def apply_detail(job: Job, payload: dict) -> None:
         job.url = info["externalUrl"]
 
 
+def needs_detail(job: Job) -> bool:
+    """Descriptions only matter for roles a student in India could take. Skipping detail calls for
+    roles listed only abroad keeps big global boards (hundreds of internships) fast."""
+    text = " ".join(job.locations)
+    return not text or any(rx.search(text) for rx in (INDIA, PUNE, MUMBAI, REMOTE)) \
+        or bool(re.search(r"\d+\s+Locations", text, re.I))
+
+
 def fetch(company: Company) -> list[Job]:
     seen: dict[str, tuple[Job, str]] = {}
     for term in SEARCH_TERMS:
@@ -64,6 +75,8 @@ def fetch(company: Company) -> list[Job]:
             if len(postings) < PAGE or offset + PAGE >= payload.get("total", 0):
                 break
     for job, path in seen.values():
+        if not needs_detail(job):
+            continue
         try:
             apply_detail(job, get_json(f"{_base(company)}{path}"))
         except Exception:  # keep the list-level record

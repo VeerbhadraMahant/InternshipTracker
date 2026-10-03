@@ -126,12 +126,24 @@ def _write_discovered(path: Path, entries: list[dict]) -> None:
 
 
 def discover(queries: list[str], per_query: int, max_new: int, path: Path = DISCOVERED_FILE,
-             dry_run: bool = False) -> list[Company]:
+             dry_run: bool = False, seeds: Optional[list[dict]] = None) -> list[Company]:
     companies, _ = load_watchlist()
     known = {c.key for c in companies}
-    fc = firecrawl.client()
 
+    # Hand-listed boards whose slug isn't confirmed yet: checking them costs no credits.
     candidates: dict[str, Company] = {}
+    for seed in seeds or []:
+        c = Company(**seed)
+        if c.key not in known:
+            candidates.setdefault(c.key, c)
+    if candidates:
+        log.info("%d candidate boards from watchlist.yaml to check", len(candidates))
+
+    try:
+        fc = firecrawl.client()
+    except firecrawl.SourceSkipped as exc:
+        log.warning("no searches: %s", exc)
+        queries = []
     for q in queries:
         try:
             results = fc.search(q, per_query)
@@ -162,7 +174,7 @@ def discover(queries: list[str], per_query: int, max_new: int, path: Path = DISC
             entry = {"name": c.name, "ats": c.ats, "slug": c.slug}
             if c.host:
                 entry.update({"host": c.host, "site": c.site})
-            entry.update({"tags": ["discovered"], "discovered": today})
+            entry.update({"tags": list(c.tags) or ["discovered"], "discovered": today})
             entries.append(entry)
         _write_discovered(path, entries)
     if not dry_run:
@@ -178,7 +190,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     cfg = load_discovery()
     try:
         added = discover(cfg.get("queries") or DEFAULT_QUERIES, int(cfg.get("results_per_query", 20)),
-                         int(cfg.get("max_new_per_run", 25)), dry_run=args.dry_run)
+                         int(cfg.get("max_new_per_run", 25)), dry_run=args.dry_run,
+                         seeds=cfg.get("candidates") or [])
     except firecrawl.SourceSkipped as exc:
         log.warning("discovery skipped: %s", exc)
         return 0

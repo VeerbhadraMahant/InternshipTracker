@@ -92,7 +92,71 @@ def test_extract_links_keeps_internships_and_resolves_relative_urls():
         ("Software Engineering Intern", "https://acme.in/careers/123"),
         ("Data Science Trainee", "https://acme.in/careers/125"),
     ]
-    assert jobs[0].locations == ["Pune, India"] and jobs[0].tags == ["pune"]
+    assert jobs[0].locations == ["Pune"] and jobs[0].tags == ["pune"]          # read from "- Pune"
+    assert jobs[1].locations == ["Pune, India"]                                # entry default
+
+
+# Trimmed from a real Firecrawl scrape of Google's internship search (Oct 2026).
+GOOGLE_MD = r"""## Jobs search results
+
+2 jobs matched
+
+- ### Software Engineering PhD Intern, Summer 2027
+
+_corporate\_fare_ Google_place_ Bengaluru, Karnataka, India; Hyderabad, Telangana, India; +2 more_bar\_chart_ Intern & Apprentice
+
+Google \| Bengaluru, Karnataka, India; Hyderabad, Telangana, India; +2 more
+
+#### Minimum qualifications
+
+  - Pursuing a PhD program with a focus in software development.
+
+Learn more [Learn more about Software Engineering PhD Intern, Summer 2027](https://www.google.com/about/careers/applications/jobs/results/109976286780105414-software-engineering-phd-intern-summer-2027?q=intern)
+
+_share_
+Share Software Engineering PhD Intern, Summer 2027
+
+- ### Silicon Engineering Intern, PhD, Summer 2027
+
+Google \| Bengaluru, Karnataka, India; Hyderabad, Telangana, India
+
+Learn more [Learn more about Silicon Engineering Intern, PhD, Summer 2027](https://www.google.com/about/careers/applications/jobs/results/109375266236572358-silicon-engineering-intern-phd-summer-2027?q=intern)
+"""
+
+# Trimmed from a real Firecrawl scrape of metacareers.com internships (Oct 2026).
+META_MD = r"""Search by technology, team, location, or ref. code
+
+[**DFX Engineering Intern**\\
+\\
+Sunnyvale, CA⋅Seattle, WA\\
+\\
+AR/VR\\
+\\
+Hardware](https://www.metacareers.com/profile/job_details/1095054769939445) [**Production Engineer Intern**\\
+\\
+London, UK\\
+\\
+Infrastructure](https://www.metacareers.com/profile/job_details/1442284501111979)
+
+Page 1 of 1"""
+
+BIG = Company(name="Google", ats="careerpage", url="https://www.google.com/about/careers/applications/", location="India")
+
+
+def test_extract_links_google_markup():
+    jobs = careerpage.extract_links(GOOGLE_MD, BIG)
+    assert [j.title for j in jobs] == ["Software Engineering PhD Intern, Summer 2027",
+                                       "Silicon Engineering Intern, PhD, Summer 2027"]
+    assert jobs[0].locations == ["Bengaluru, Karnataka, India; Hyderabad, Telangana, India; +2 more"]
+    assert jobs[1].locations == ["Bengaluru, Karnataka, India; Hyderabad, Telangana, India"]
+
+
+def test_extract_links_meta_multiline_links():
+    jobs = careerpage.extract_links(META_MD, Company(name="Meta", ats="careerpage", url="https://www.metacareers.com/"))
+    assert [(j.title, j.locations) for j in jobs] == [
+        ("DFX Engineering Intern", ["Sunnyvale, CA⋅Seattle, WA"]),
+        ("Production Engineer Intern", ["London, UK"]),
+    ]
 
 
 def test_careerpage_skips_unchanged_page_and_ignores_relative_dates(fc):
@@ -162,3 +226,18 @@ def test_load_watchlist_merges_discovered_without_duplicates(tmp_path):
                     "  - {name: New, ats: ashby, slug: new, discovered: '2026-10-05'}\n")
     companies, _ = load_watchlist(wl, disc)
     assert [c.key for c in companies] == ["lever:acme", "ashby:new"]
+
+
+def test_discover_validates_candidates_without_firecrawl(tmp_path, monkeypatch):
+    out = tmp_path / "discovered.yaml"
+    monkeypatch.setattr(discover.firecrawl, "client",
+                        lambda: (_ for _ in ()).throw(firecrawl.SourceSkipped("no key")))
+    monkeypatch.setitem(discover.ATS, "greenhouse", lambda c: [object()] if c.slug == "pubmatic" else [])
+    seeds = [
+        {"name": "PubMatic", "ats": "greenhouse", "slug": "pubmatic", "tags": ["pune"]},
+        {"name": "Guess", "ats": "greenhouse", "slug": "wrongslug"},       # answers with nothing
+        {"name": "Druva", "ats": "greenhouse", "slug": "druva"},            # already in watchlist.yaml
+    ]
+    added = discover.discover(["q"], 20, 25, path=out, seeds=seeds)
+    assert [c.key for c in added] == ["greenhouse:pubmatic"]
+    assert yaml.safe_load(out.read_text())["companies"][0]["tags"] == ["pune"]

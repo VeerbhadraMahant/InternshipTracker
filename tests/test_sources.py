@@ -119,3 +119,28 @@ def test_hn():
     ]}
     [j] = hn.parse_thread(thread)
     assert j.company == "Acme" and j.title == "Software Engineering Intern" and j.remote
+
+
+def test_amazon_keeps_india_only():
+    from tracker.sources import amazon
+    payload = {"hits": 2, "jobs": [
+        {"title": "Software Dev Engineer Intern", "job_path": "/en/jobs/111/sde-intern", "country_code": "IND",
+         "normalized_location": "Bengaluru, Karnataka, IND", "id_icims": "111", "description": "<p>Java</p>",
+         "posted_date": "September 30, 2026", "job_category": "Software Development"},
+        {"title": "WHS Intern", "job_path": "/en/jobs/222/whs-intern", "country_code": "GBR",
+         "normalized_location": "Rugby, England, GBR", "id_icims": "222"},
+    ]}
+    [j] = amazon.parse(payload, Company("Amazon", "amazon", "amazon", tags=["big-tech"]))
+    assert (j.url, j.locations, j.description) == (
+        "https://www.amazon.jobs/en/jobs/111/sde-intern", ["Bengaluru, Karnataka, IND"], "Java")
+    assert j.tags == ["big-tech", "Software Development"]
+
+
+def test_workday_detail_only_for_reachable_roles():
+    mk = lambda loc: workday.Job(source="workday", company="X", title="Intern", url="u", native_id=loc,
+                                 locations=[loc] if loc else [])
+    assert workday.needs_detail(mk("India, Pune"))
+    assert workday.needs_detail(mk("Remote - EMEA"))
+    assert workday.needs_detail(mk("3 Locations"))
+    assert workday.needs_detail(mk(""))
+    assert not workday.needs_detail(mk("US, CA, Santa Clara"))

@@ -11,7 +11,7 @@ There are no servers and no database, and everything runs on free tiers. The job
 ```
 GitHub Actions (cron, every 12h; Discover weekly)
   └─ tracker/run.py
-       ├─ sources/   Greenhouse · Lever · Ashby · SmartRecruiters · Workday   (company watchlist)
+       ├─ sources/   Greenhouse · Lever · Ashby · SmartRecruiters · Workday · Amazon   (company watchlist)
        │             careers pages via Firecrawl                              (no public API)
        │             RemoteOK · Remotive · We Work Remotely · HN "Who is hiring"  (feeds)
        ├─ classify/  internship? · field · location · eligibility · stipend
@@ -110,7 +110,8 @@ costs 1 credit, AI extraction adds 4, and a search costs 2 credits per 10 result
    `discovery` in `config/watchlist.yaml`, such as `site:jobs.lever.co intern India`. Every job-board
    link it finds is turned into a company (Greenhouse, Lever, Ashby, SmartRecruiters or Workday) and
    checked against that board's free API. Boards that answer with at least one posting go into
-   `config/discovered.yaml`, and from then on they cost nothing. Eight queries of 20 results use
+   `config/discovered.yaml`, and from then on they cost nothing. The `discovery.candidates` list
+   holds boards I believe exist but haven't confirmed; each run checks them the same way, for free. Eight queries of 20 results use
    about 32 credits a week. At most 25 companies are added per run. Delete an entry to stop
    tracking it.
 2. **Careers pages with no public API (twice a day).** Entries with `ats: careerpage` are fetched
