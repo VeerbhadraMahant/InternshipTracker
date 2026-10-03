@@ -21,7 +21,7 @@ from urllib.parse import parse_qs, urlparse
 import yaml
 
 from . import firecrawl
-from .classify.location import classify_location
+from .classify import classify
 from .config import CONFIG_DIR, Company, load_discovery, load_watchlist
 from .sources import ATS
 
@@ -55,20 +55,31 @@ def _pretty(slug: str) -> str:
     return re.sub(r"[-_.]+", " ", slug).strip().title()
 
 
+_NOT_A_NAME = re.compile(
+    r"\b(intern|internship|engineer|developer|analyst|associate|manager|careers?|jobs?|hiring|apply|"
+    r"remote|lever|greenhouse|ashby|workday|qa|talent|join|open positions)\b", re.I)
+
+
 def _name_from_title(ats: str, title: str) -> Optional[str]:
-    """Company name from a search result title, when the board's title format gives it away."""
-    t = (title or "").strip()
-    patterns = {
-        "greenhouse": r"\bat\s+(.+?)\s*$",             # "Job Application for SWE Intern at Acme"
-        "lever": r"\s-\s([^-]+?)(?:\s-\sLever)?\s*$",     # "Finance Intern - Aleph - Lever"
-        "ashby": r"@\s*(.+?)\s*$",                     # "Software Intern @ Acme"
-        "smartrecruiters": r"^(.+?)\s+[-|]\s+",
-    }
-    if ats not in patterns:
+    """Company name from a search result title, only when it clearly is one.
+
+    Titles vary a lot ("Finance Intern - Aleph - Lever", "Mactores - Lever",
+    "Job Application for X at Acme", "Careers at Rubrik | ..."), so anything that looks like a
+    role, a slogan or a platform name is rejected and the caller falls back to the board slug.
+    """
+    t = re.sub(r"\s+-\s+(Lever|Greenhouse|Ashby|Jobs)\s*$", "", (title or "").strip(), flags=re.I)
+    if ats == "greenhouse" or ats == "ashby":
+        m = re.search(r"(?:\bat|@)\s+(.+)$", t)
+        name = m.group(1) if m else ""
+    elif ats in ("lever", "smartrecruiters"):
+        parts = [p.strip() for p in re.split(r"\s+[-|]\s+", t) if p.strip()]
+        name = parts[-1] if parts else ""
+    else:
         return None
-    m = re.search(patterns[ats], t)
-    name = m.group(1).strip() if m else ""
-    return name[:60] if 1 < len(name) <= 60 else None
+    name = re.split(r"\s+[|:–-]\s+|:\s", name)[0].strip()
+    if not name or len(name) > 40 or len(name.split()) > 4 or _NOT_A_NAME.search(name):
+        return None
+    return name
 
 
 def parse_ats_url(url: str, title: str = "") -> Optional[Company]:
@@ -108,16 +119,17 @@ def parse_ats_url(url: str, title: str = "") -> Optional[Company]:
 
 
 def _validate(company: Company) -> bool:
-    """Keep boards that answer and have at least one role in India or open to remote work.
+    """Keep boards that answer and have at least one role in India or explicitly open worldwide.
     Search results include plenty of US-only boards; those would only add roles abroad."""
     try:
         jobs = ATS[company.ats](company)
     except Exception as exc:  # 404, renamed board, rate limit: just don't add it
         log.info("  reject %-40s %s", company.key, str(exc)[:120])
         return False
-    relevant = sum(1 for j in jobs if {"india", "remote"} & set(classify_location(j)))
+    # "Remote" alone often means US-remote, so use the eligibility verdict instead.
+    relevant = sum(1 for j in jobs if classify(j).eligibility in ("india-ok", "open-worldwide"))
     if not relevant:
-        log.info("  reject %-40s %d postings, none in India or remote", company.key, len(jobs))
+        log.info("  reject %-40s %d postings, none open to someone in India", company.key, len(jobs))
     return relevant > 0
 
 

@@ -188,6 +188,11 @@ def test_careerpage_falls_back_to_json_extraction(fc):
     ("https://boards.greenhouse.io/embed/job_app?for=zeta&token=1", "", ("greenhouse", "zeta", "Zeta")),
     ("https://jobs.lever.co/aleph/4f1c", "Finance Intern - Aleph - Lever", ("lever", "aleph", "Aleph")),
     ("https://jobs.lever.co/fampay/1", "Copy Intern - FamPay", ("lever", "fampay", "FamPay")),
+    ("https://jobs.lever.co/mactores", "Mactores - Lever", ("lever", "mactores", "Mactores")),
+    ("https://jobs.lever.co/hrs/9", "QA - Lever", ("lever", "hrs", "Hrs")),
+    ("https://job-boards.greenhouse.io/rubrik/jobs/1", "Careers at Rubrik | Discover The Power of You",
+     ("greenhouse", "rubrik", "Rubrik")),
+    ("https://job-boards.greenhouse.io/hubspotjobs/jobs/1", "Open Positions - HubSpot", ("greenhouse", "hubspotjobs", "Hubspotjobs")),
     ("https://jobs.ashbyhq.com/sarvam/abc", "AI Intern @ Sarvam AI", ("ashby", "sarvam", "Sarvam AI")),
     ("https://jobs.smartrecruiters.com/BoschGroup/7441", "", ("smartrecruiters", "BoschGroup", "Boschgroup")),
     ("https://citi.wd5.myworkdayjobs.com/en-US/2/job/Pune-India/Intern_123", "", ("workday", "citi", "Citi")),
@@ -240,13 +245,13 @@ def test_discover_validates_candidates_without_firecrawl(tmp_path, monkeypatch):
     monkeypatch.setattr(discover.firecrawl, "client",
                         lambda: (_ for _ in ()).throw(firecrawl.SourceSkipped("no key")))
     def fake_gh(c):
-        loc = {"pubmatic": "Pune, India", "usonly": "Austin, TX"}.get(c.slug)
+        loc = {"pubmatic": "Pune, India", "usonly": "Remote - US"}.get(c.slug)
         return [Job(source="greenhouse", company=c.name, title="Intern", url="u", native_id="1", locations=[loc])] if loc else []
     monkeypatch.setitem(discover.ATS, "greenhouse", fake_gh)
     seeds = [
         {"name": "PubMatic", "ats": "greenhouse", "slug": "pubmatic", "tags": ["pune"]},
         {"name": "Guess", "ats": "greenhouse", "slug": "wrongslug"},       # answers with nothing
-        {"name": "US only", "ats": "greenhouse", "slug": "usonly"},        # no India or remote roles
+        {"name": "US only", "ats": "greenhouse", "slug": "usonly"},        # remote, but US only
         {"name": "Druva", "ats": "greenhouse", "slug": "druva"},            # already in watchlist.yaml
     ]
     added = discover.discover(["q"], 20, 25, path=out, seeds=seeds)
