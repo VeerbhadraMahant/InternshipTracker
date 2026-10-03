@@ -1,0 +1,322 @@
+# Companies found by `python -m tracker.discover` (weekly Discover workflow).
+# Each one answered its job board's public API with at least one posting when it was added.
+# Safe to edit: delete an entry to stop tracking it, or move it into watchlist.yaml to keep it
+# permanently. Entries already in watchlist.yaml are never added here.
+
+companies:
+- name: Meesho
+  ats: lever
+  slug: meesho
+  tags:
+  - india
+  - startup
+  discovered: '2026-10-03'
+- name: Mindtickle
+  ats: lever
+  slug: mindtickle
+  tags:
+  - pune
+  - startup
+  discovered: '2026-10-03'
+- name: PubMatic
+  ats: greenhouse
+  slug: pubmatic
+  tags:
+  - pune
+  discovered: '2026-10-03'
+- name: InMobi
+  ats: greenhouse
+  slug: inmobi
+  tags:
+  - india
+  discovered: '2026-10-03'
+- name: Sarvam AI
+  ats: ashby
+  slug: sarvam
+  tags:
+  - india
+  - startup
+  - ai
+  discovered: '2026-10-03'
+- name: Composio
+  ats: ashby
+  slug: composio
+  tags:
+  - india
+  - startup
+  - ai
+  discovered: '2026-10-03'
+- name: Citi
+  ats: workday
+  slug: citi
+  host: citi.wd5.myworkdayjobs.com
+  site: '2'
+  tags:
+  - pune
+  - mumbai
+  discovered: '2026-10-03'
+- name: PayPal
+  ats: workday
+  slug: paypal
+  host: paypal.wd1.myworkdayjobs.com
+  site: jobs
+  tags:
+  - big-tech
+  discovered: '2026-10-03'
+- name: Morgan Stanley
+  ats: workday
+  slug: ms
+  host: ms.wd5.myworkdayjobs.com
+  site: External
+  tags:
+  - mumbai
+  discovered: '2026-10-03'
+- name: Accenture
+  ats: workday
+  slug: accenture
+  host: accenture.wd103.myworkdayjobs.com
+  site: AccentureCareers
+  tags:
+  - pune
+  - mumbai
+  discovered: '2026-10-03'
+- name: Weekdayworks
+  ats: lever
+  slug: weekdayworks
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Xsolla
+  ats: lever
+  slug: xsolla
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Shopback 2
+  ats: lever
+  slug: shopback-2
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Merklescience
+  ats: lever
+  slug: merklescience
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Sprinto
+  ats: lever
+  slug: Sprinto
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Sonarsource
+  ats: lever
+  slug: sonarsource
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Fam
+  ats: lever
+  slug: fampay
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Aleph
+  ats: lever
+  slug: aleph
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Paytm
+  ats: lever
+  slug: paytm
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Editorialist
+  ats: lever
+  slug: editorialist
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Waymo
+  ats: greenhouse
+  slug: waymo
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Optiverus
+  ats: greenhouse
+  slug: optiverus
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: CloudSEK
+  ats: greenhouse
+  slug: cloudsek
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Instawork
+  ats: greenhouse
+  slug: instawork
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Roblox
+  ats: greenhouse
+  slug: roblox
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Figma
+  ats: greenhouse
+  slug: figma
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Mfsgtechnologiesindia
+  ats: greenhouse
+  slug: mfsgtechnologiesindia
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: C3Iot
+  ats: greenhouse
+  slug: c3iot
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: CannonDesign
+  ats: greenhouse
+  slug: cannondesign
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Wehrtyou
+  ats: greenhouse
+  slug: wehrtyou
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Truefoundry
+  ats: greenhouse
+  slug: truefoundry
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Cclfg
+  ats: greenhouse
+  slug: cclfg
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Everpure
+  ats: greenhouse
+  slug: purestorage
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Ensono
+  ats: greenhouse
+  slug: ensono
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: DigiCert
+  ats: greenhouse
+  slug: digicert
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Udemy
+  ats: greenhouse
+  slug: udemy
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Abacusinsights
+  ats: greenhouse
+  slug: abacusinsights
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Crunchyroll
+  ats: greenhouse
+  slug: crunchyroll
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Hubspotjobs
+  ats: greenhouse
+  slug: hubspotjobs
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Gruve
+  ats: greenhouse
+  slug: gruve
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Hunterdouglas
+  ats: greenhouse
+  slug: hunterdouglas
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Neo4j
+  ats: greenhouse
+  slug: neo4j
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Taboola
+  ats: greenhouse
+  slug: taboola
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Five9
+  ats: greenhouse
+  slug: five9
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Vaynermedia
+  ats: greenhouse
+  slug: vaynermedia
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Castaigroupinc
+  ats: greenhouse
+  slug: castaigroupinc
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Zuora
+  ats: greenhouse
+  slug: zuora
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Eositsolutions
+  ats: greenhouse
+  slug: eositsolutions
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: Appsflyer
+  ats: greenhouse
+  slug: appsflyer
+  tags:
+  - discovered
+  discovered: '2026-10-03'
+- name: AiStudio Artificial Intelligence ...
+  ats: ashby
+  slug: aistudio
+  tags:
+  - discovered
+  discovered: '2026-10-03'
