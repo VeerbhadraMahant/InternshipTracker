@@ -104,12 +104,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-03'
-- name: Sonarsource
-  ats: lever
-  slug: sonarsource
-  tags:
-  - discovered
-  discovered: '2026-10-03'
 - name: Fam
   ats: lever
   slug: fampay
@@ -284,3 +278,285 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-03'
+- name: Avathon
+  ats: greenhouse
+  slug: avathon
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Flexport
+  ats: greenhouse
+  slug: flexport
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Verifone
+  ats: greenhouse
+  slug: verifone
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Notion
+  ats: ashby
+  slug: notion
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Airbound
+  ats: ashby
+  slug: airbound
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Cohere
+  ats: ashby
+  slug: cohere
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Quadric
+  ats: ashby
+  slug: quadric
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Opengov
+  ats: ashby
+  slug: opengov
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Prosus
+  ats: ashby
+  slug: prosus
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Atlys
+  ats: ashby
+  slug: atlys
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Human Archive
+  ats: ashby
+  slug: humanarchive
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Cartesia
+  ats: ashby
+  slug: cartesia
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Meraki-Labs
+  ats: ashby
+  slug: Meraki-Labs
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: SPAN
+  ats: ashby
+  slug: span
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Philips
+  ats: workday
+  slug: philips
+  host: philips.wd3.myworkdayjobs.com
+  site: jobs-and-careers
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Jbtm
+  ats: workday
+  slug: jbtm
+  host: jbtm.wd108.myworkdayjobs.com
+  site: JBT_Marel_Career_Site
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Magna
+  ats: workday
+  slug: magna
+  host: magna.wd3.myworkdayjobs.com
+  site: Magna
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Smithnephew
+  ats: workday
+  slug: smithnephew
+  host: smithnephew.wd5.myworkdayjobs.com
+  site: External
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Djeholdings
+  ats: workday
+  slug: djeholdings
+  host: djeholdings.wd5.myworkdayjobs.com
+  site: edelman-careers-E200
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Pg
+  ats: workday
+  slug: pg
+  host: pg.wd5.myworkdayjobs.com
+  site: '1000'
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Athene
+  ats: workday
+  slug: athene
+  host: athene.wd5.myworkdayjobs.com
+  site: apollononpubliccareersite
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Revvity
+  ats: workday
+  slug: revvity
+  host: revvity.wd103.myworkdayjobs.com
+  site: External
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Kimberlyclark
+  ats: workday
+  slug: kimberlyclark
+  host: kimberlyclark.wd1.myworkdayjobs.com
+  site: GLOBAL
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Cochlear
+  ats: workday
+  slug: cochlear
+  host: cochlear.wd3.myworkdayjobs.com
+  site: cochlear_careers
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Clearwateranalytics
+  ats: workday
+  slug: clearwateranalytics
+  host: clearwateranalytics.wd1.myworkdayjobs.com
+  site: Clearwater_Analytics_Careers
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Cw
+  ats: workday
+  slug: cw
+  host: cw.wd1.myworkdayjobs.com
+  site: External
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: OptimizedInfotech
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: ZapFinTeknologiesPvtLtdDocBoyz
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Weqtechnologies
+  ats: smartrecruiters
+  slug: WEQTechnologies
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: VerticalSoftware
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: BringleExcellence
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: CatenonIndia1
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Crimsoninteractive1
+  ats: smartrecruiters
+  slug: CrimsonInteractive1
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: Brainwonders
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Logoscorporatesolutions
+  ats: smartrecruiters
+  slug: LOGOSCORPORATESOLUTIONS
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: Vroutes
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: Quantazone
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Cypressglobalservicesinc
+  ats: smartrecruiters
+  slug: CypressGlobalServicesInc
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: RHG
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Endpoint Clinical
+  ats: lever
+  slug: endpointclinical
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Emergence Software
+  ats: ashby
+  slug: emergence
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Jobgether
+  ats: lever
+  slug: jobgether
+  tags:
+  - discovered
+  discovered: '2026-10-05'
+- name: Wmg
+  ats: lever
+  slug: wmg
+  tags:
+  - discovered
+  discovered: '2026-10-05'
