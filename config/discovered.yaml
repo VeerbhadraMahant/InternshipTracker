@@ -206,12 +206,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-03'
-- name: Hubspotjobs
-  ats: greenhouse
-  slug: hubspotjobs
-  tags:
-  - discovered
-  discovered: '2026-10-03'
 - name: Gruve
   ats: greenhouse
   slug: gruve
@@ -402,14 +396,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-05'
-- name: Pg
-  ats: workday
-  slug: pg
-  host: pg.wd5.myworkdayjobs.com
-  site: '1000'
-  tags:
-  - discovered
-  discovered: '2026-10-05'
 - name: Athene
   ats: workday
   slug: athene
@@ -560,3 +546,113 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-05'
+- name: Arcesium LLC
+  ats: greenhouse
+  slug: arcesiumllc
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: SentinelOne
+  ats: greenhouse
+  slug: sentinellabs
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Grassi India
+  ats: greenhouse
+  slug: grassi-indiacareers
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Thoughtworks
+  ats: greenhouse
+  slug: thoughtworks
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Gersonlehrmangroup
+  ats: greenhouse
+  slug: gersonlehrmangroup
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Airbnb
+  ats: greenhouse
+  slug: airbnb
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Agoda
+  ats: greenhouse
+  slug: agoda
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Bolna AI
+  ats: ashby
+  slug: bolna
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Commure
+  ats: ashby
+  slug: Commure
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Redhat
+  ats: workday
+  slug: redhat
+  host: redhat.wd5.myworkdayjobs.com
+  site: jobs
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Morningstar
+  ats: workday
+  slug: morningstar
+  host: morningstar.wd5.myworkdayjobs.com
+  site: morningstar
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Jll
+  ats: workday
+  slug: jll
+  host: jll.wd1.myworkdayjobs.com
+  site: jllcareers
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Pwc
+  ats: workday
+  slug: pwc
+  host: pwc.wd3.myworkdayjobs.com
+  site: Global_Experienced_Careers
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Quantazone
+  ats: smartrecruiters
+  slug: quantazone
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: NECSWS
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Accorhotel
+  ats: smartrecruiters
+  slug: AccorHotel
+  tags:
+  - discovered
+  discovered: '2026-10-12'
+- name: Redeconsultingservices
+  ats: smartrecruiters
+  slug: RedeConsultingServices
+  tags:
+  - discovered
+  discovered: '2026-10-12'
