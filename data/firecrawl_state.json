@@ -1,14 +1,14 @@
 {
  "month": "2026-10",
- "credits_used": 275,
+ "credits_used": 279,
  "pages": {
   "https://builtinpune.in/jobs": {
    "hash": "47573d6839d8ce598187",
    "changed": "2026-10-11T17:43:05+00:00"
   },
   "https://jobs.apple.com/en-in/search?team=internships-STDNT-INTRN": {
-   "hash": "eb73b8651ca28011ee01",
-   "changed": "2026-10-11T05:54:50+00:00"
+   "hash": "c4ac404442f7bc6d2cb2",
+   "changed": "2026-10-13T06:51:38+00:00"
   },
   "https://jobs.careers.microsoft.com/global/en/search?q=intern&lc=India": {
    "hash": "efd281dd7edf9bb52edd",
