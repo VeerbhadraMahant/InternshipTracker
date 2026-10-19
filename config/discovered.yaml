@@ -212,12 +212,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-03'
-- name: Hunterdouglas
-  ats: greenhouse
-  slug: hunterdouglas
-  tags:
-  - discovered
-  discovered: '2026-10-03'
 - name: Neo4j
   ats: greenhouse
   slug: neo4j
@@ -385,14 +379,6 @@ companies:
   slug: smithnephew
   host: smithnephew.wd5.myworkdayjobs.com
   site: External
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Djeholdings
-  ats: workday
-  slug: djeholdings
-  host: djeholdings.wd5.myworkdayjobs.com
-  site: edelman-careers-E200
   tags:
   - discovered
   discovered: '2026-10-05'
@@ -656,3 +642,87 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-12'
+- name: Thirdbridge
+  ats: greenhouse
+  slug: thirdbridge
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Jump Trading
+  ats: greenhouse
+  slug: jumptrading
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Duolingo
+  ats: greenhouse
+  slug: duolingo
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Kaseya
+  ats: greenhouse
+  slug: kaseya
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Modulrfinance
+  ats: greenhouse
+  slug: modulrfinance
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Supplyhouse
+  ats: greenhouse
+  slug: supplyhouse
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Valeo
+  ats: workday
+  slug: valeo
+  host: valeo.wd3.myworkdayjobs.com
+  site: valeo_jobs
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Roche
+  ats: workday
+  slug: roche
+  host: roche.wd3.myworkdayjobs.com
+  site: roche-ext
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Path
+  ats: workday
+  slug: path
+  host: path.wd1.myworkdayjobs.com
+  site: External
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Jiostar
+  ats: workday
+  slug: jiostar
+  host: jiostar.wd102.myworkdayjobs.com
+  site: JioStar
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Pg
+  ats: workday
+  slug: pg
+  host: pg.wd5.myworkdayjobs.com
+  site: '1000'
+  tags:
+  - discovered
+  discovered: '2026-10-19'
+- name: Medtronic
+  ats: workday
+  slug: medtronic
+  host: medtronic.wd1.myworkdayjobs.com
+  site: MedtronicCareers
+  tags:
+  - discovered
+  discovered: '2026-10-19'
