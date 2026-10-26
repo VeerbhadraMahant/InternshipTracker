@@ -296,12 +296,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-05'
-- name: Cohere
-  ats: ashby
-  slug: cohere
-  tags:
-  - discovered
-  discovered: '2026-10-05'
 - name: Quadric
   ats: ashby
   slug: quadric
@@ -550,12 +544,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-12'
-- name: Thoughtworks
-  ats: greenhouse
-  slug: thoughtworks
-  tags:
-  - discovered
-  discovered: '2026-10-12'
 - name: Gersonlehrmangroup
   ats: greenhouse
   slug: gersonlehrmangroup
@@ -726,3 +714,93 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-19'
+- name: Karya
+  ats: greenhouse
+  slug: karya
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: project44
+  ats: greenhouse
+  slug: project44
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Fictiv
+  ats: greenhouse
+  slug: fictiv
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Formlabs
+  ats: greenhouse
+  slug: formlabs
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Dominodatalab
+  ats: greenhouse
+  slug: dominodatalab
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Point72
+  ats: greenhouse
+  slug: point72
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Intersystems
+  ats: greenhouse
+  slug: intersystems
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Cognition
+  ats: ashby
+  slug: cognition
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Semgrep
+  ats: ashby
+  slug: semgrep
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Rivianvw Tech
+  ats: ashby
+  slug: rivianvw.tech
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Msd
+  ats: workday
+  slug: msd
+  host: msd.wd5.myworkdayjobs.com
+  site: SearchJobs
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Wri
+  ats: workday
+  slug: wri
+  host: wri.wd501.myworkdayjobs.com
+  site: wri_india
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: Russell
+  ats: workday
+  slug: russell
+  host: russell.wd5.myworkdayjobs.com
+  site: russellinvestments
+  tags:
+  - discovered
+  discovered: '2026-10-26'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: SWIGGY
+  tags:
+  - discovered
+  discovered: '2026-10-26'
