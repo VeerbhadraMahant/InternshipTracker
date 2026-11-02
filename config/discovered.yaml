@@ -63,14 +63,6 @@ companies:
   tags:
   - big-tech
   discovered: '2026-10-03'
-- name: Morgan Stanley
-  ats: workday
-  slug: ms
-  host: ms.wd5.myworkdayjobs.com
-  site: External
-  tags:
-  - mumbai
-  discovered: '2026-10-03'
 - name: Accenture
   ats: workday
   slug: accenture
@@ -323,12 +315,6 @@ companies:
 - name: Human Archive
   ats: ashby
   slug: humanarchive
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Cartesia
-  ats: ashby
-  slug: cartesia
   tags:
   - discovered
   discovered: '2026-10-05'
@@ -732,12 +718,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-26'
-- name: Formlabs
-  ats: greenhouse
-  slug: formlabs
-  tags:
-  - discovered
-  discovered: '2026-10-26'
 - name: Dominodatalab
   ats: greenhouse
   slug: dominodatalab
@@ -804,3 +784,103 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-26'
+- name: Ivalua
+  ats: greenhouse
+  slug: ivalua
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: WEKA
+  ats: greenhouse
+  slug: wekatest
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: AQR
+  ats: greenhouse
+  slug: aqr
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Triplelift
+  ats: greenhouse
+  slug: triplelift
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Livecareer
+  ats: greenhouse
+  slug: livecareer
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Harnessinc
+  ats: greenhouse
+  slug: harnessinc
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Certa
+  ats: ashby
+  slug: certa
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Hire Hangar
+  ats: ashby
+  slug: hirehangar
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Springernature
+  ats: workday
+  slug: springernature
+  host: springernature.wd3.myworkdayjobs.com
+  site: SpringerNatureCareers
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Rockwellautomation
+  ats: workday
+  slug: rockwellautomation
+  host: rockwellautomation.wd1.myworkdayjobs.com
+  site: External-Rockwell-Automation-Early-Careers
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Fnz
+  ats: workday
+  slug: fnz
+  host: fnz.wd3.myworkdayjobs.com
+  site: fnz_careers
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Condenast
+  ats: workday
+  slug: condenast
+  host: condenast.wd115.myworkdayjobs.com
+  site: CondeCareers
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Pfizer
+  ats: workday
+  slug: pfizer
+  host: pfizer.wd1.myworkdayjobs.com
+  site: PfizerCareers
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: SmartRecruiters
+  ats: smartrecruiters
+  slug: Endava
+  tags:
+  - discovered
+  discovered: '2026-11-02'
+- name: Hevodata
+  ats: lever
+  slug: hevodata
+  tags:
+  - discovered
+  discovered: '2026-11-02'
