@@ -1,14 +1,14 @@
 {
  "month": "2026-11",
- "credits_used": 79,
+ "credits_used": 88,
  "pages": {
   "https://builtinpune.in/jobs": {
-   "hash": "cc5c7d4246c27b3adb7d",
-   "changed": "2026-11-04T06:34:41+00:00"
+   "hash": "84ef0f9defd812afcc29",
+   "changed": "2026-11-06T06:56:07+00:00"
   },
   "https://jobs.apple.com/en-in/search?team=internships-STDNT-INTRN": {
-   "hash": "15b5fdfdb6405a8e947e",
-   "changed": "2026-11-04T06:34:34+00:00"
+   "hash": "7f3dc8fa2f07aa27c9d9",
+   "changed": "2026-11-06T06:55:38+00:00"
   },
   "https://jobs.careers.microsoft.com/global/en/search?q=intern&lc=India": {
    "hash": "efd281dd7edf9bb52edd",
@@ -19,8 +19,8 @@
    "changed": "2026-10-03T03:28:50+00:00"
   },
   "https://www.google.com/about/careers/applications/jobs/results?q=intern&location=India&target_level=INTERN_AND_APPRENTICE": {
-   "hash": "d2f8c036ddb482c9f441",
-   "changed": "2026-11-02T06:18:05+00:00"
+   "hash": "4f3fb249e2a5543b6268",
+   "changed": "2026-11-06T06:55:38+00:00"
   },
   "https://www.kpit.com/careers-graduates/": {
    "hash": "10343321006f618ed5c2",
