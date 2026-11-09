@@ -252,12 +252,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-03'
-- name: AiStudio Artificial Intelligence ...
-  ats: ashby
-  slug: aistudio
-  tags:
-  - discovered
-  discovered: '2026-10-03'
 - name: Avathon
   ats: greenhouse
   slug: avathon
@@ -359,14 +353,6 @@ companies:
   slug: smithnephew
   host: smithnephew.wd5.myworkdayjobs.com
   site: External
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Athene
-  ats: workday
-  slug: athene
-  host: athene.wd5.myworkdayjobs.com
-  site: apollononpubliccareersite
   tags:
   - discovered
   discovered: '2026-10-05'
@@ -491,12 +477,6 @@ companies:
 - name: Endpoint Clinical
   ats: lever
   slug: endpointclinical
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Emergence Software
-  ats: ashby
-  slug: emergence
   tags:
   - discovered
   discovered: '2026-10-05'
@@ -884,3 +864,101 @@ companies:
   tags:
   - discovered
   discovered: '2026-11-02'
+- name: Morgan Stanley
+  ats: workday
+  slug: ms
+  host: ms.wd5.myworkdayjobs.com
+  site: External
+  tags:
+  - mumbai
+  discovered: '2026-11-09'
+- name: India Site
+  ats: lever
+  slug: acronaviation
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: ShyftLabs
+  ats: lever
+  slug: shyftlabs
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Nirmata
+  ats: greenhouse
+  slug: nirmata
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Netskope
+  ats: greenhouse
+  slug: netskope
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Thoughtworks
+  ats: greenhouse
+  slug: thoughtworks
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Cockroachlabs
+  ats: greenhouse
+  slug: cockroachlabs
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Nexaminds
+  ats: greenhouse
+  slug: nexaminds
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Elevenlabs
+  ats: ashby
+  slug: elevenlabs
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Silabs
+  ats: workday
+  slug: silabs
+  host: silabs.wd1.myworkdayjobs.com
+  site: experiencedjobs
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Autodesk
+  ats: workday
+  slug: autodesk
+  host: autodesk.wd1.myworkdayjobs.com
+  site: Ext
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Fractal
+  ats: workday
+  slug: fractal
+  host: fractal.wd1.myworkdayjobs.com
+  site: Careers
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Hyphenate
+  ats: ashby
+  slug: hyphenate
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: RosaicLabs
+  ats: lever
+  slug: rosaiclabs
+  tags:
+  - discovered
+  discovered: '2026-11-09'
+- name: Clickhouse
+  ats: ashby
+  slug: clickhouse
+  tags:
+  - discovered
+  discovered: '2026-11-09'
