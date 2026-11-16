@@ -46,32 +46,6 @@ companies:
   - startup
   - ai
   discovered: '2026-10-03'
-- name: Citi
-  ats: workday
-  slug: citi
-  host: citi.wd5.myworkdayjobs.com
-  site: '2'
-  tags:
-  - pune
-  - mumbai
-  discovered: '2026-10-03'
-- name: PayPal
-  ats: workday
-  slug: paypal
-  host: paypal.wd1.myworkdayjobs.com
-  site: jobs
-  tags:
-  - big-tech
-  discovered: '2026-10-03'
-- name: Accenture
-  ats: workday
-  slug: accenture
-  host: accenture.wd103.myworkdayjobs.com
-  site: AccentureCareers
-  tags:
-  - pune
-  - mumbai
-  discovered: '2026-10-03'
 - name: Weekdayworks
   ats: lever
   slug: weekdayworks
@@ -324,78 +298,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-05'
-- name: Philips
-  ats: workday
-  slug: philips
-  host: philips.wd3.myworkdayjobs.com
-  site: jobs-and-careers
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Jbtm
-  ats: workday
-  slug: jbtm
-  host: jbtm.wd108.myworkdayjobs.com
-  site: JBT_Marel_Career_Site
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Magna
-  ats: workday
-  slug: magna
-  host: magna.wd3.myworkdayjobs.com
-  site: Magna
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Smithnephew
-  ats: workday
-  slug: smithnephew
-  host: smithnephew.wd5.myworkdayjobs.com
-  site: External
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Revvity
-  ats: workday
-  slug: revvity
-  host: revvity.wd103.myworkdayjobs.com
-  site: External
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Kimberlyclark
-  ats: workday
-  slug: kimberlyclark
-  host: kimberlyclark.wd1.myworkdayjobs.com
-  site: GLOBAL
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Cochlear
-  ats: workday
-  slug: cochlear
-  host: cochlear.wd3.myworkdayjobs.com
-  site: cochlear_careers
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Clearwateranalytics
-  ats: workday
-  slug: clearwateranalytics
-  host: clearwateranalytics.wd1.myworkdayjobs.com
-  site: Clearwater_Analytics_Careers
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: Cw
-  ats: workday
-  slug: cw
-  host: cw.wd1.myworkdayjobs.com
-  site: External
-  tags:
-  - discovered
-  discovered: '2026-10-05'
 - name: SmartRecruiters
   ats: smartrecruiters
   slug: OptimizedInfotech
@@ -453,12 +355,6 @@ companies:
 - name: SmartRecruiters
   ats: smartrecruiters
   slug: Vroutes
-  tags:
-  - discovered
-  discovered: '2026-10-05'
-- name: SmartRecruiters
-  ats: smartrecruiters
-  slug: Quantazone
   tags:
   - discovered
   discovered: '2026-10-05'
@@ -540,44 +436,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-12'
-- name: Redhat
-  ats: workday
-  slug: redhat
-  host: redhat.wd5.myworkdayjobs.com
-  site: jobs
-  tags:
-  - discovered
-  discovered: '2026-10-12'
-- name: Morningstar
-  ats: workday
-  slug: morningstar
-  host: morningstar.wd5.myworkdayjobs.com
-  site: morningstar
-  tags:
-  - discovered
-  discovered: '2026-10-12'
-- name: Jll
-  ats: workday
-  slug: jll
-  host: jll.wd1.myworkdayjobs.com
-  site: jllcareers
-  tags:
-  - discovered
-  discovered: '2026-10-12'
-- name: Pwc
-  ats: workday
-  slug: pwc
-  host: pwc.wd3.myworkdayjobs.com
-  site: Global_Experienced_Careers
-  tags:
-  - discovered
-  discovered: '2026-10-12'
-- name: Quantazone
-  ats: smartrecruiters
-  slug: quantazone
-  tags:
-  - discovered
-  discovered: '2026-10-12'
 - name: SmartRecruiters
   ats: smartrecruiters
   slug: NECSWS
@@ -632,51 +490,11 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-19'
-- name: Valeo
-  ats: workday
-  slug: valeo
-  host: valeo.wd3.myworkdayjobs.com
-  site: valeo_jobs
-  tags:
-  - discovered
-  discovered: '2026-10-19'
-- name: Roche
-  ats: workday
-  slug: roche
-  host: roche.wd3.myworkdayjobs.com
-  site: roche-ext
-  tags:
-  - discovered
-  discovered: '2026-10-19'
-- name: Path
-  ats: workday
-  slug: path
-  host: path.wd1.myworkdayjobs.com
-  site: External
-  tags:
-  - discovered
-  discovered: '2026-10-19'
 - name: Jiostar
   ats: workday
   slug: jiostar
   host: jiostar.wd102.myworkdayjobs.com
   site: JioStar
-  tags:
-  - discovered
-  discovered: '2026-10-19'
-- name: Pg
-  ats: workday
-  slug: pg
-  host: pg.wd5.myworkdayjobs.com
-  site: '1000'
-  tags:
-  - discovered
-  discovered: '2026-10-19'
-- name: Medtronic
-  ats: workday
-  slug: medtronic
-  host: medtronic.wd1.myworkdayjobs.com
-  site: MedtronicCareers
   tags:
   - discovered
   discovered: '2026-10-19'
@@ -734,30 +552,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-10-26'
-- name: Msd
-  ats: workday
-  slug: msd
-  host: msd.wd5.myworkdayjobs.com
-  site: SearchJobs
-  tags:
-  - discovered
-  discovered: '2026-10-26'
-- name: Wri
-  ats: workday
-  slug: wri
-  host: wri.wd501.myworkdayjobs.com
-  site: wri_india
-  tags:
-  - discovered
-  discovered: '2026-10-26'
-- name: Russell
-  ats: workday
-  slug: russell
-  host: russell.wd5.myworkdayjobs.com
-  site: russellinvestments
-  tags:
-  - discovered
-  discovered: '2026-10-26'
 - name: SmartRecruiters
   ats: smartrecruiters
   slug: SWIGGY
@@ -812,46 +606,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-11-02'
-- name: Springernature
-  ats: workday
-  slug: springernature
-  host: springernature.wd3.myworkdayjobs.com
-  site: SpringerNatureCareers
-  tags:
-  - discovered
-  discovered: '2026-11-02'
-- name: Rockwellautomation
-  ats: workday
-  slug: rockwellautomation
-  host: rockwellautomation.wd1.myworkdayjobs.com
-  site: External-Rockwell-Automation-Early-Careers
-  tags:
-  - discovered
-  discovered: '2026-11-02'
-- name: Fnz
-  ats: workday
-  slug: fnz
-  host: fnz.wd3.myworkdayjobs.com
-  site: fnz_careers
-  tags:
-  - discovered
-  discovered: '2026-11-02'
-- name: Condenast
-  ats: workday
-  slug: condenast
-  host: condenast.wd115.myworkdayjobs.com
-  site: CondeCareers
-  tags:
-  - discovered
-  discovered: '2026-11-02'
-- name: Pfizer
-  ats: workday
-  slug: pfizer
-  host: pfizer.wd1.myworkdayjobs.com
-  site: PfizerCareers
-  tags:
-  - discovered
-  discovered: '2026-11-02'
 - name: SmartRecruiters
   ats: smartrecruiters
   slug: Endava
@@ -864,14 +618,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-11-02'
-- name: Morgan Stanley
-  ats: workday
-  slug: ms
-  host: ms.wd5.myworkdayjobs.com
-  site: External
-  tags:
-  - mumbai
-  discovered: '2026-11-09'
 - name: India Site
   ats: lever
   slug: acronaviation
@@ -896,12 +642,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-11-09'
-- name: Thoughtworks
-  ats: greenhouse
-  slug: thoughtworks
-  tags:
-  - discovered
-  discovered: '2026-11-09'
 - name: Cockroachlabs
   ats: greenhouse
   slug: cockroachlabs
@@ -917,30 +657,6 @@ companies:
 - name: Elevenlabs
   ats: ashby
   slug: elevenlabs
-  tags:
-  - discovered
-  discovered: '2026-11-09'
-- name: Silabs
-  ats: workday
-  slug: silabs
-  host: silabs.wd1.myworkdayjobs.com
-  site: experiencedjobs
-  tags:
-  - discovered
-  discovered: '2026-11-09'
-- name: Autodesk
-  ats: workday
-  slug: autodesk
-  host: autodesk.wd1.myworkdayjobs.com
-  site: Ext
-  tags:
-  - discovered
-  discovered: '2026-11-09'
-- name: Fractal
-  ats: workday
-  slug: fractal
-  host: fractal.wd1.myworkdayjobs.com
-  site: Careers
   tags:
   - discovered
   discovered: '2026-11-09'
@@ -962,3 +678,39 @@ companies:
   tags:
   - discovered
   discovered: '2026-11-09'
+- name: Portcast
+  ats: lever
+  slug: portcast
+  tags:
+  - discovered
+  discovered: '2026-11-16'
+- name: Entrupy
+  ats: greenhouse
+  slug: entrupy
+  tags:
+  - discovered
+  discovered: '2026-11-16'
+- name: Opswat
+  ats: greenhouse
+  slug: opswat
+  tags:
+  - discovered
+  discovered: '2026-11-16'
+- name: Juniper Square
+  ats: ashby
+  slug: junipersquare
+  tags:
+  - discovered
+  discovered: '2026-11-16'
+- name: Kantiv (formerly Joist AI)
+  ats: ashby
+  slug: kantiv
+  tags:
+  - discovered
+  discovered: '2026-11-16'
+- name: Prometteursolutionspvtltd
+  ats: smartrecruiters
+  slug: PrometteurSolutionsPvtLtd
+  tags:
+  - discovered
+  discovered: '2026-11-16'
