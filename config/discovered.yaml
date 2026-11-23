@@ -642,12 +642,6 @@ companies:
   tags:
   - discovered
   discovered: '2026-11-09'
-- name: Cockroachlabs
-  ats: greenhouse
-  slug: cockroachlabs
-  tags:
-  - discovered
-  discovered: '2026-11-09'
 - name: Nexaminds
   ats: greenhouse
   slug: nexaminds
@@ -714,3 +708,65 @@ companies:
   tags:
   - discovered
   discovered: '2026-11-16'
+- name: Thinkahead
+  ats: lever
+  slug: thinkahead
+  tags:
+  - discovered
+  discovered: '2026-11-23'
+- name: Fresh Prints
+  ats: greenhouse
+  slug: freshprints
+  tags:
+  - discovered
+  discovered: '2026-11-23'
+- name: FourKites
+  ats: greenhouse
+  slug: fourkites
+  tags:
+  - discovered
+  discovered: '2026-11-23'
+- name: Glean
+  ats: greenhouse
+  slug: gleanwork
+  tags:
+  - discovered
+  discovered: '2026-11-23'
+- name: Elastic
+  ats: greenhouse
+  slug: elastic
+  tags:
+  - discovered
+  discovered: '2026-11-23'
+- name: Bugcrowd
+  ats: greenhouse
+  slug: bugcrowd
+  tags:
+  - discovered
+  discovered: '2026-11-23'
+- name: Sophos
+  ats: ashby
+  slug: sophos
+  tags:
+  - discovered
+  discovered: '2026-11-23'
+- name: Puma
+  ats: workday
+  slug: puma
+  host: puma.wd502.myworkdayjobs.com
+  site: Jobs_at_Puma
+  tags:
+  - discovered
+  discovered: '2026-11-23'
+- name: Qadinc
+  ats: smartrecruiters
+  slug: QADInc
+  tags:
+  - discovered
+  discovered: '2026-11-23'
+- name: Blueberrylabsprivatelimited
+  ats: smartrecruiters
+  slug: BlueberryLabsPrivateLimited
+  tags:
+  - discovered
+  discovered: '2026-11-23'
